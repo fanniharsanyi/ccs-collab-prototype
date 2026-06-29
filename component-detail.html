@@ -4,23 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Introduction to Psychology — Component</title>
-<link rel="stylesheet" href="assets/styles.css?v=25">
+<link rel="stylesheet" href="assets/styles.css?v=26">
 <style>
-  .cmp-camp { border:1px solid var(--gray-200); border-radius:10px; background:#fff; padding:0; margin-bottom:14px; overflow:hidden; }
-  .cmp-camp__hdr { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:13px 16px; background:#F7F9FC; border-bottom:1px solid var(--gray-200); }
-  .cmp-camp__name { font-weight:700; font-size:14px; color:#222; }
-  .cmp-camp__count { font-size:12px; color:#576773; font-weight:600; }
-  .cmp-courses { display:flex; flex-direction:column; padding:12px 16px; gap:0; }
-  .cmp-course { display:flex; align-items:center; justify-content:space-between; gap:12px; border:1px solid var(--gray-200); border-left:3px solid var(--c-link); border-radius:8px; padding:10px 13px; background:#fff; }
-  .cmp-course__main { font-weight:600; font-size:13.5px; color:#222; }
-  .cmp-course__meta { font-size:12px; color:#576773; margin-top:2px; }
-  .cmp-or { display:flex; align-items:center; gap:8px; padding:7px 0 7px 6px; }
-  .cmp-or small { font-size:11px; color:#9aa3ad; }
-  .cmp-acts { display:flex; gap:6px; flex:none; }
-  .cmp-empty { font-size:13px; color:#576773; background:#FAFAFA; border:1px dashed var(--gray-200); border-radius:8px; padding:12px 14px; }
-  .cmp-add { margin-top:10px; }
-  .cmp-grp { border:1px solid var(--gray-200); border-left:3px solid #B0741A; border-radius:8px; padding:8px 10px; }
-  .cmp-grp__tag { display:inline-block; font-size:10px; letter-spacing:.06em; text-transform:uppercase; font-weight:700; color:#9c6612; background:#F3E7CF; border-radius:5px; padding:2px 7px; margin-bottom:8px; }
+  /* multi-select course picker */
+  .ms { border:1px solid var(--gray-300); border-radius:8px; background:var(--c-form-input-bg); padding:7px 8px; display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+  .ms__chip { display:inline-flex; align-items:center; gap:6px; background:#EAF1FB; border:1px solid #CFE0F5; color:#1953A8; border-radius:6px; padding:3px 8px; font-size:12.5px; font-weight:600; }
+  .ms__chip button { border:0; background:none; color:#1953A8; cursor:pointer; font-size:14px; line-height:1; padding:0; }
+  .ms__input { border:0; outline:0; background:none; flex:1; min-width:160px; font-size:13.5px; padding:4px; }
+  .ms-wrap { position:relative; }
+  .ms-menu { position:absolute; z-index:20; left:0; right:0; top:calc(100% + 4px); background:#fff; border:1px solid var(--gray-300); border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.10); max-height:230px; overflow:auto; display:none; }
+  .ms-menu.show { display:block; }
+  .ms-opt { padding:9px 12px; font-size:13.5px; cursor:pointer; }
+  .ms-opt:hover, .ms-opt.active { background:#EAF1FB; }
+  .ms-opt[aria-disabled=true] { color:#9aa3ad; cursor:default; background:none; }
+  /* component courses table */
+  .cc-excl { }
+  .cc-excl__tag { display:inline-block; font-size:10px; letter-spacing:.06em; text-transform:uppercase; font-weight:700; color:#9c6612; background:#F3E7CF; border-radius:5px; padding:2px 7px; margin-bottom:6px; }
+  .cc-excl ul { margin:0; padding-left:18px; }
+  .cc-excl li { font-size:13px; margin:2px 0; }
+  .cc-code { font-weight:700; }
+  td.cc-actions { width:48px; text-align:right; }
 </style>
 </head>
 <body>
@@ -34,124 +37,136 @@
           <h1 class="h1">Introduction to Psychology</h1>
           <div class="detail-actions">
             <button class="btn btn-outline btn-md" onclick="go('import-equivalencies-1.html')">Import courses (CSV)</button>
+            <button class="btn btn-outline btn-md">Edit</button>
           </div>
         </div>
-        <p class="detail-desc">General psychology prerequisite for patient-care tracks. Each campus adds the course that counts for this component.</p>
+        <p class="detail-desc">A curated set of courses drawn from the collaborative's participating institutions. General psychology prerequisite for patient-care tracks.</p>
       </div>
 
+      <!-- ADD COURSES -->
       <div class="card">
-        <h2 class="card-title">Component details</h2>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px 40px; font-size:13px; margin-top:16px;">
-          <div><p class="dl-label">Name</p><p class="dl-value">Introduction to Psychology</p></div>
-          <div><p class="dl-label">Display name</p><p class="dl-value muted">— (same as name)</p></div>
+        <h2 class="card-title">Add courses</h2>
+        <p class="card-sub" style="margin-top:4px;">Pick an institution, then select one or more courses.</p>
+
+        <div class="field" style="margin-top:16px; max-width:420px;">
+          <label>Institution</label>
+          <select class="select" id="inst"></select>
         </div>
-        <div style="margin-top:14px;"><p class="dl-label">Description</p><p class="dl-value">General psychology prerequisite for patient-care tracks.</p></div>
+
+        <div class="field">
+          <label>Course(s)</label>
+          <div class="ms-wrap">
+            <div class="ms" id="ms" onclick="document.getElementById('msInput').focus()">
+              <span id="msChips" style="display:contents;"></span>
+              <input class="ms__input" id="msInput" placeholder="Search courses…" autocomplete="off">
+            </div>
+            <div class="ms-menu" id="msMenu" role="listbox"></div>
+          </div>
+        </div>
+
+        <label class="ccs-check" style="margin-top:6px;">
+          <input type="checkbox" id="single">
+          <span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M1 6l3.5 3.5L11 2.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="lbl">Add selected courses as a single course group (students take one)<span class="sub">Leave unchecked to add each selected course as its own entry. Check this to combine the selected courses into one exclusive set where students take a single course.</span></span>
+        </label>
+
+        <div style="margin-top:16px;"><button class="btn btn-primary btn-md" onclick="addCourses()">Add</button></div>
       </div>
 
+      <!-- COMPONENT COURSES -->
       <div class="card">
-        <div class="reqdef-head">
-          <h2 class="card-title" style="margin:0;">Courses by campus</h2>
+        <h2 class="card-title">Component Courses</h2>
+        <p class="card-sub" id="ccCount" style="margin-top:4px;"></p>
+        <table class="table" style="margin-top:14px;">
+          <thead><tr><th>Course(s)</th><th>Institution</th><th></th></tr></thead>
+          <tbody id="ccBody"></tbody>
+        </table>
+        <div id="ccEmpty" class="status-notice sn-info" role="status" style="display:none; margin-top:4px;">
+          <span class="sicon">&#9432;</span><span>No courses in this component yet. Use “Add courses” above — each campus’s contributor adds the courses that count here.</span>
         </div>
-        <div class="status-notice sn-info" role="status" style="margin:14px 0 4px;">
-          <span class="sicon">&#9432;</span>
-          <span>Each campus adds its own courses that count for this component. If a campus lists two courses that are actually the <b>same course</b> (renamed over the years), group them with <b>OR</b> — the student takes one or the other.</span>
-        </div>
-        <div id="camps" style="margin-top:16px;"></div>
       </div>
     </div>
   </main>
 </div>
 
-<!-- Add-course tray -->
-<div class="tray-overlay" id="tray">
-  <div class="tray" role="dialog" aria-modal="true" aria-labelledby="trayTitle">
-    <div class="tray-head"><h3 id="trayTitle">Add course</h3><button class="tray-close" onclick="closeTray()" aria-label="Close">&times;</button></div>
-    <div class="tray-body" id="trayBody"></div>
-    <div class="tray-foot">
-      <button class="btn btn-outline btn-md" onclick="closeTray()">Cancel</button>
-      <button class="btn btn-primary btn-md" onclick="saveCourse()">Add course</button>
-    </div>
-  </div>
-</div>
-
-<script src="assets/app.js?v=25"></script>
+<script src="assets/app.js?v=26"></script>
 <script>
-mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network', href:'collab-detail.html'}, {label:'Introduction to Psychology'}]);
+mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network', href:'collab-detail.html'}, {label:'Components', href:'collab-detail.html#component'}, {label:'Introduction to Psychology'}]);
 
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function liveToast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); requestAnimationFrame(()=>t.classList.add('show')); setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),300); }, 2200); }
-const PENCIL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>';
 const TRASH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
 
-/* Each campus contributes its own courses. A course can carry an OR-alternative
-   that is the SAME course under a different name (student takes one or the other). */
-const campuses = [
-  { inst:'UCLA',                 courses:[ { course:'PSYCH 10 — Introductory Psychology', grade:'C', alt:'' } ] },
-  { inst:'USC',                  courses:[ { course:'PSYC 100 — Introduction to Psychology', grade:'C', alt:'' } ] },
-  { inst:'UC San Diego',         courses:[ { course:'PSYC 1 — Psychology', grade:'', alt:'PSYC 1H — Psychology (Honors)' } ] },
-  { inst:'Cal State Long Beach', courses:[] },
+const INSTITUTIONS = ['UCLA', 'USC', 'UC San Diego', 'Cal State Long Beach'];
+const COURSE_OPTIONS = [
+  'PSYC 1 — Psychology', 'PSYC 1H — Psychology (Honors)', 'PSYCH 10 — Introductory Psychology',
+  'PSYC 100 — Introduction to Psychology', 'PSY 5 — General Psychology', 'PSYC 110 — Mind & Behavior',
+  'PSYC 41 — Lifespan Development', 'PSYC 33 — Social Psychology',
 ];
 
-function courseRow(c, ci, idx){
-  if (c.alt){
-    return `<div class="cmp-grp">
-      <span class="cmp-grp__tag">Same course · take one</span>
-      <div class="cmp-course"><div><div class="cmp-course__main">${esc(c.course)}</div>${c.grade?`<div class="cmp-course__meta">min grade ${esc(c.grade)}</div>`:''}</div>
-        <div class="cmp-acts"><button class="rd-iconbtn" aria-label="Edit" onclick="editCourse(${ci},${idx})">${PENCIL}</button><button class="rd-iconbtn rd-iconbtn--del" aria-label="Remove" onclick="removeCourse(${ci},${idx})">${TRASH}</button></div></div>
-      <div class="cmp-or"><span class="or-chip">OR</span> <small>same course, different name</small></div>
-      <div class="cmp-course"><div class="cmp-course__main">${esc(c.alt)}</div></div>
-    </div>`;
-  }
-  return `<div class="cmp-course"><div><div class="cmp-course__main">${esc(c.course)}</div>${c.grade?`<div class="cmp-course__meta">min grade ${esc(c.grade)}</div>`:''}</div>
-    <div class="cmp-acts"><button class="rd-iconbtn" aria-label="Edit" onclick="editCourse(${ci},${idx})">${PENCIL}</button><button class="rd-iconbtn rd-iconbtn--del" aria-label="Remove" onclick="removeCourse(${ci},${idx})">${TRASH}</button></div></div>`;
-}
-function render(){
-  document.getElementById('camps').innerHTML = campuses.map((cp,ci)=>{
-    const list = cp.courses.length
-      ? cp.courses.map((c,idx)=>courseRow(c,ci,idx)).join('<div style="height:8px"></div>')
-      : `<div class="cmp-empty">No courses yet — ${esc(cp.inst)}'s contributor hasn't added a course for this component.</div>`;
-    return `<div class="cmp-camp">
-      <div class="cmp-camp__hdr"><span class="cmp-camp__name">${esc(cp.inst)}</span><span class="cmp-camp__count">${cp.courses.length} course${cp.courses.length===1?'':'s'}</span></div>
-      <div class="cmp-courses">${list}
-        <div class="cmp-add"><button type="button" class="add-link" onclick="addCourse(${ci})"><span class="circ">+</span> Add ${esc(cp.inst)} course</button></div>
-      </div>
-    </div>`;
-  }).join('');
-}
+/* Each entry is one row in the Component Courses table.
+   exclusive=true with >1 course renders as an "Exclusive — take one" group. */
+let entries = [
+  { inst:'UCLA',                 courses:['PSYCH 10 — Introductory Psychology'],                                  exclusive:false },
+  { inst:'USC',                  courses:['PSYC 100 — Introduction to Psychology'],                               exclusive:false },
+  { inst:'UC San Diego',         courses:['PSYC 1 — Psychology','PSYC 1H — Psychology (Honors)'],                 exclusive:true  },
+];
 
-/* ---- add / edit tray ---- */
-let editState = null; // {ci, idx} idx null = new
-function gradeOpts(v){ return '<option value="">No minimum</option>' + ['C','B','A'].map(g=>`<option${g===v?' selected':''}>${g}</option>`).join(''); }
-function openTray(title, c){
-  document.getElementById('trayTitle').textContent = title;
-  document.getElementById('trayBody').innerHTML = `
-    <p class="tray-sub">Add a course from this campus that counts toward <b>Introduction to Psychology</b>.</p>
-    <div class="field"><label><span class="star">*</span> Course</label><input class="input" id="t_course" value="${esc(c.course)}" placeholder="e.g. PSYC 100 — Introduction to Psychology"></div>
-    <div class="field"><label>Minimum grade</label><select class="select" id="t_grade">${gradeOpts(c.grade)}</select></div>
-    <label class="ccs-check tray-check"><input type="checkbox" id="t_hasalt"${c.alt?' checked':''} onchange="document.getElementById('altWrap').style.display=this.checked?'block':'none'">
-      <span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M1 6l3.5 3.5L11 2.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      <span class="lbl">This course has another name (OR)<span class="sub">Add a second course that's actually the same course — the student takes one or the other.</span></span>
-    </label>
-    <div class="field" id="altWrap" style="display:${c.alt?'block':'none'}; margin-top:10px;"><label>Same course, other name</label><input class="input" id="t_alt" value="${esc(c.alt)}" placeholder="e.g. PSYC 1H — Psychology (Honors)"></div>`;
-  document.getElementById('tray').classList.add('show');
+/* ---- institution select ---- */
+document.getElementById('inst').innerHTML = INSTITUTIONS.map(i=>`<option>${esc(i)}</option>`).join('');
+
+/* ---- multi-select course picker ---- */
+let selected = [];
+const msInput = document.getElementById('msInput');
+const msMenu = document.getElementById('msMenu');
+function renderChips(){
+  document.getElementById('msChips').innerHTML = selected.map((c,i)=>
+    `<span class="ms__chip">${esc(c)}<button type="button" aria-label="Remove" onclick="removeSel(${i})">&times;</button></span>`).join('');
 }
-function addCourse(ci){ editState={ci,idx:null}; openTray('Add course', {course:'',grade:'',alt:''}); }
-function editCourse(ci,idx){ editState={ci,idx}; openTray('Edit course', campuses[ci].courses[idx]); }
-function removeCourse(ci,idx){ campuses[ci].courses.splice(idx,1); render(); liveToast('Course removed'); }
-function closeTray(){ editState=null; document.getElementById('tray').classList.remove('show'); }
-function saveCourse(){
-  if (!editState) return;
-  const course = document.getElementById('t_course').value.trim();
-  if (!course){ document.getElementById('t_course').focus(); return; }
-  const hasAlt = document.getElementById('t_hasalt').checked;
-  const rec = { course, grade: document.getElementById('t_grade').value, alt: hasAlt ? document.getElementById('t_alt').value.trim() : '' };
-  const cp = campuses[editState.ci];
-  if (editState.idx===null) cp.courses.push(rec); else cp.courses[editState.idx]=rec;
-  closeTray(); render(); liveToast('Course saved');
+function removeSel(i){ selected.splice(i,1); renderChips(); renderMenu(); }
+function renderMenu(){
+  const q = msInput.value.trim().toLowerCase();
+  const opts = COURSE_OPTIONS.filter(o=>o.toLowerCase().includes(q));
+  msMenu.innerHTML = opts.length ? opts.map(o=>{
+    const on = selected.includes(o);
+    return `<div class="ms-opt" role="option" aria-disabled="${on}" ${on?'':`onclick="pickSel('${o.replace(/'/g,"\\'")}')"`}>${esc(o)}${on?' ✓':''}</div>`;
+  }).join('') : `<div class="ms-opt" aria-disabled="true">No matches</div>`;
 }
-document.getElementById('tray').addEventListener('click', e=>{ if(e.target.id==='tray') closeTray(); });
-document.addEventListener('keydown', e=>{ if(e.key==='Escape' && document.getElementById('tray').classList.contains('show')) closeTray(); });
-render();
+function pickSel(o){ if(!selected.includes(o)) selected.push(o); msInput.value=''; renderChips(); renderMenu(); msInput.focus(); }
+msInput.addEventListener('focus', ()=>{ renderMenu(); msMenu.classList.add('show'); });
+msInput.addEventListener('input', renderMenu);
+document.addEventListener('click', e=>{ if(!document.getElementById('ms').contains(e.target) && !msMenu.contains(e.target)) msMenu.classList.remove('show'); });
+
+/* ---- add / render entries ---- */
+function addCourses(){
+  if(!selected.length){ msInput.focus(); return; }
+  const inst = document.getElementById('inst').value;
+  const single = document.getElementById('single').checked;
+  if(single && selected.length>1){
+    entries.push({ inst, courses:selected.slice(), exclusive:true });
+  } else {
+    selected.forEach(c=> entries.push({ inst, courses:[c], exclusive:false }));
+  }
+  selected = []; renderChips(); renderMenu();
+  document.getElementById('single').checked = false;
+  render(); liveToast('Courses added');
+}
+function removeEntry(i){ entries.splice(i,1); render(); liveToast('Removed'); }
+function render(){
+  const body = document.getElementById('ccBody');
+  body.innerHTML = entries.map((e,i)=>{
+    const cell = (e.exclusive && e.courses.length>1)
+      ? `<div class="cc-excl"><span class="cc-excl__tag">Exclusive — take one</span><ul>${e.courses.map(c=>`<li>${fmt(c)}</li>`).join('')}</ul></div>`
+      : fmt(e.courses[0]);
+    return `<tr><td>${cell}</td><td>${esc(e.inst)}</td><td class="cc-actions"><button class="rd-iconbtn rd-iconbtn--del" aria-label="Remove" onclick="removeEntry(${i})">${TRASH}</button></td></tr>`;
+  }).join('');
+  const n = entries.length;
+  document.getElementById('ccCount').textContent = `${n} ${n===1?'entry':'entries'} in this component`;
+  document.getElementById('ccEmpty').style.display = n ? 'none' : 'flex';
+}
+/* bold the course code (text up to the em dash) */
+function fmt(c){ const m = String(c).split(' — '); return m.length>1 ? `<span class="cc-code">${esc(m[0])}</span> ${esc(m.slice(1).join(' — '))}` : esc(c); }
+renderChips(); render();
 </script>
 </body>
 </html>

@@ -4,7 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Add Requirement</title>
-<link rel="stylesheet" href="assets/styles.css?v=22">
+<link rel="stylesheet" href="assets/styles.css?v=26">
+<style>
+  .rq-grp { border:1px solid var(--gray-200); border-left:3px solid var(--c-link); border-radius:0 10px 10px 0; background:#fff; padding:16px 18px; }
+  .rq-grp--nested { border-left-color:#B0741A; background:#FAF7F0; margin-top:12px; }
+  .rq-item { border:1px solid var(--gray-200); border-left:3px solid #B0741A; border-radius:8px; padding:14px; background:#fff; margin-bottom:12px; }
+  .rq-item__top { display:flex; align-items:center; gap:10px; }
+  .rq-item__top .select { flex:1; }
+  .rq-tag { display:inline-block; font-size:10px; letter-spacing:.06em; text-transform:uppercase; font-weight:700; color:#9c6612; background:#F3E7CF; border-radius:5px; padding:2px 7px; margin-bottom:8px; }
+  .rq-fields { display:grid; grid-template-columns:1fr 1fr; gap:12px 16px; margin-top:12px; }
+  .rq-fields .field { margin:0; }
+  .rq-row3 { display:grid; grid-template-columns:160px 160px 1fr; gap:12px 16px; margin-top:12px; }
+  @media (max-width:760px){ .rq-fields, .rq-row3 { grid-template-columns:1fr; } }
+  .rq-acts { display:flex; gap:6px; flex:none; }
+  .rq-opbar { display:flex; align-items:center; gap:22px; margin-top:6px; padding-top:14px; border-top:1px solid var(--gray-200); flex-wrap:wrap; }
+  .rq-op { display:flex; align-items:center; gap:8px; }
+  .rq-op .select { width:90px; }
+  .rq-op span { font-size:12px; color:#576773; }
+  label.mini { display:block; font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:#9aa3ad; margin-bottom:5px; }
+</style>
 </head>
 <body>
 <div class="app" id="app">
@@ -12,247 +30,157 @@
     <div class="page">
       <button class="back-link" onclick="go('program-detail.html')"><span class="chev-left"></span> Back</button>
       <h1 class="h1" style="margin-top:12px;">Add Requirement</h1>
-      <p class="lead">Define the academic requirements students must fulfill to complete this program.</p>
+      <p class="lead">Define the academic requirement students must fulfill to complete this program.</p>
 
+      <!-- REQUIREMENT DETAILS -->
       <div class="card">
-        <h2 class="card-title">Requirement details</h2>
-        <div style="display:grid; grid-template-columns:2fr 1fr; gap:18px; margin-top:14px;">
-          <div class="field" style="margin:0;"><label><span class="star">*</span> Name <span class="muted">(Required)</span></label><input class="input" id="reqName" value="English Composition" placeholder="Requirement name"></div>
-          <div class="field" style="margin:0;"><label><span class="star">*</span> Credit <span class="muted">(Required)</span></label><input class="input" value="4"></div>
+        <h2 class="card-title">Requirement Details</h2>
+        <div style="display:grid; grid-template-columns:1fr 220px; gap:18px; margin-top:16px; align-items:end;">
+          <div class="field" style="margin:0;"><label>Name</label><input class="input" id="rName" placeholder="e.g. Lower-division core"></div>
+          <div class="field" style="margin:0;">
+            <label>Credits Range</label>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <input class="input" id="rMin" style="width:80px;" value="0"><span class="muted">–</span><input class="input" id="rMax" style="width:80px;" value="0">
+            </div>
+          </div>
         </div>
-        <div class="field" style="margin:14px 0 0;"><label><span class="star">*</span> Default Subheading Text <span class="muted">(Required)</span></label><input class="input" value="Complete one approved English composition course." placeholder="Subheading shown to students"></div>
+        <div style="display:grid; grid-template-columns:1fr auto; gap:18px; margin-top:14px; align-items:end;">
+          <div class="field" style="margin:0;"><label>Default Subheading Text</label><input class="input" id="rSub" placeholder="Subheading shown to students"></div>
+          <label class="ccs-check" style="margin-bottom:10px;"><input type="checkbox" id="rOverride"><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M1 6l3.5 3.5L11 2.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lbl">Override Default Subheading</span></label>
+        </div>
         <label class="ccs-check" style="margin-top:14px;">
-          <input type="checkbox" id="hio">
+          <input type="checkbox" id="rHome">
           <span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M1 6l3.5 3.5L11 2.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
           <span class="lbl">Home Institution Only<span class="sub">This entire requirement section must be completed at the student's home institution.</span></span>
         </label>
       </div>
 
+      <!-- REQUIREMENT DEFINITION -->
       <div class="card">
-        <h2 class="card-title">Requirements</h2>
-        <div class="notice notice-info" role="status" style="margin-top:14px;">
-          <span class="nicon">i</span>
-          <span><b>Information:</b> Each requirement is its own group (the left border + title group its options). Within a group, the AND/OR connector controls how the options combine. Contributors fill these with their own institution's courses.</span>
+        <div class="reqdef-head">
+          <div><h2 class="card-title" style="margin:0;">Requirement Definition</h2><p class="card-sub" style="margin:4px 0 0;">Add components and combine them with AND/OR. Courses live on each component — managed in the Components tab.</p></div>
+          <div class="reqdef-head__actions">
+            <button class="btn btn-outline btn-md" onclick="openPreview()"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px; margin-right:5px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Preview Requirement</button>
+          </div>
         </div>
-
-        <div id="groups" style="margin-top:14px;"></div>
+        <div id="def" style="margin-top:18px;"></div>
       </div>
 
       <div class="card-actions">
-        <button class="btn btn-transparent btn-md" onclick="go('program-detail.html')">Cancel</button>
+        <button class="btn btn-outline btn-md" onclick="go('program-detail.html')">Cancel</button>
         <button class="btn btn-primary btn-md" onclick="save()">Save</button>
       </div>
     </div>
   </main>
 </div>
 
-<!-- Add Course tray -->
-<div class="tray-overlay" id="trayCourse">
-  <div class="tray" role="dialog" aria-modal="true" aria-label="Add Course">
-    <div class="tray-head"><h3 id="courseTitle">Add Course</h3><button class="tray-close" onclick="closeTray('trayCourse')" aria-label="Close">&times;</button></div>
-    <div class="tray-body">
-      <p class="muted" style="font-size:12px; margin:0 0 16px;">Add a specific course from a participating institution.</p>
-      <div class="field"><label><span class="star">*</span> Participating Institution</label><select class="select" id="c_inst"><option value="">Select an institution…</option><option>UCLA</option><option>USC</option><option>UC San Diego</option></select></div>
-      <div class="field"><label><span class="star">*</span> Course</label><select class="select" id="c_course"><option value="">Search a course</option><option>ENGL 101 — College Composition</option><option>ENGL 105 — Critical Reading &amp; Writing</option><option>MATH 101 — Calculus 1</option><option>BIOL 101 — General Biology</option></select></div>
-      <div class="field"><label>Display Title</label><input class="input" id="c_title" placeholder="Display title"></div>
-      <div class="field"><label>Description</label><textarea class="textarea" id="c_notes"></textarea></div>
-      <div class="field"><label><span class="star">*</span> Minimum Grade</label><select class="select" id="c_grade"><option value="">Select a grade</option><option>C</option><option>B</option><option>A</option></select></div>
-      <label class="ccs-check" style="margin-top:4px;">
-        <input type="checkbox" id="c_home">
-        <span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M1 6l3.5 3.5L11 2.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="lbl">Home Institution Only<span class="sub">Students must complete this specific course at their home institution.</span></span>
-      </label>
-      <p class="tray-note" id="c_home_note" style="display:none;">Set at the requirement level — this whole requirement is home-institution only.</p>
-    </div>
-    <div class="tray-foot">
-      <button class="btn btn-outline btn-md" onclick="closeTray('trayCourse')">Cancel</button>
-      <button class="btn btn-primary btn-md" onclick="saveTray('course')">Save</button>
-    </div>
+<!-- preview modal -->
+<div class="tray-overlay" id="pv">
+  <div class="tray" role="dialog" aria-modal="true" aria-labelledby="pvTitle">
+    <div class="tray-head"><h3 id="pvTitle">Preview requirement</h3><button class="tray-close" onclick="closePreview()" aria-label="Close">&times;</button></div>
+    <div class="tray-body" id="pvBody"></div>
+    <div class="tray-foot"><button class="btn btn-primary btn-md" onclick="closePreview()">Done</button></div>
   </div>
 </div>
 
-<!-- Add Component tray -->
-<div class="tray-overlay" id="trayComponent">
-  <div class="tray" role="dialog" aria-modal="true" aria-label="Add Component">
-    <div class="tray-head"><h3 id="componentTitle">Add Component</h3><button class="tray-close" onclick="closeTray('trayComponent')" aria-label="Close">&times;</button></div>
-    <div class="tray-body">
-      <p class="muted" style="font-size:12px; margin:0 0 16px;">Define a top-level section of this requirement, such as "Required Core" or "List A."</p>
-      <div class="field"><label><span class="star">*</span> Component</label><select class="select" id="m_comp"><option value="">Select One</option><option>Required Core</option><option>List A</option><option>List B</option></select></div>
-      <div class="field"><label><span class="star">*</span> Display Title</label><input class="input" id="m_title" placeholder="Enter a clear, descriptive name"></div>
-      <div class="field"><label>Component notes</label><input class="input" id="m_notes" placeholder="Enter a clear, descriptive name for this collaborative"></div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-        <div class="field"><label><span class="star">*</span> Minimum Grade</label><select class="select" id="m_grade"><option value="">Select</option><option>C</option><option>B</option><option>A</option></select></div>
-        <div class="field"><label>Pick X courses</label><select class="select" id="m_pick"><option>1</option><option>2</option><option>3</option></select></div>
-      </div>
-      <div class="field"><label>Exclude subjects (comma separated) courses</label><select class="select" id="m_exclude"><option>None</option></select></div>
-    </div>
-    <div class="tray-foot">
-      <button class="btn btn-outline btn-md" onclick="closeTray('trayComponent')">Cancel</button>
-      <button class="btn btn-primary btn-md" onclick="saveTray('component')">Save</button>
-    </div>
-  </div>
-</div>
-
-<!-- Add Subject tray -->
-<div class="tray-overlay" id="traySubject">
-  <div class="tray" role="dialog" aria-modal="true" aria-label="Add Subject">
-    <div class="tray-head"><h3 id="subjectTitle">Add Subject</h3><button class="tray-close" onclick="closeTray('traySubject')" aria-label="Close">&times;</button></div>
-    <div class="tray-body">
-      <div class="field"><label><span class="star">*</span> Participating Institution</label><select class="select" id="s_inst"><option value="">Select an institution…</option><option>UCLA</option><option>USC</option><option>UC San Diego</option></select></div>
-      <div class="field"><label><span class="star">*</span> Subject (Course prefix)</label><input class="input" id="s_subject" placeholder="e.g. MATH"></div>
-      <div class="field"><label>Display Title</label><input class="input" id="s_title" placeholder="Display title"></div>
-      <div class="field"><label>Subject Notes</label><textarea class="textarea" id="s_notes"></textarea></div>
-      <div class="field"><label><span class="star">*</span> Minimum Grade</label><select class="select" id="s_grade"><option value="">Select a grade</option><option>C</option><option>B</option><option>A</option></select></div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-        <div class="field"><label><span class="star">*</span> Minimum course level</label><select class="select" id="s_level"><option value="">Select</option><option>100</option><option>200</option></select></div>
-        <div class="field"><label><span class="star">*</span> Pick X courses</label><select class="select" id="s_pick"><option>1</option><option>2</option><option>3</option></select></div>
-      </div>
-    </div>
-    <div class="tray-foot">
-      <button class="btn btn-outline btn-md" onclick="closeTray('traySubject')">Cancel</button>
-      <button class="btn btn-primary btn-md" onclick="saveTray('subject')">Save</button>
-    </div>
-  </div>
-</div>
-
-<script src="assets/app.js?v=22"></script>
+<script src="assets/app.js?v=26"></script>
 <script>
 mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network', href:'collab-detail.html'}, {label:'Registered Nursing (RN)', href:'program-detail.html'}, {label:'Add Requirement'}]);
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function liveToast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); requestAnimationFrame(()=>t.classList.add('show')); setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),300); }, 2200); }
+const TRASH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
 
-const PENCIL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>';
-const TRASH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
-const TYPE_LABEL = {course:'Course', component:'Component', subject:'Subject'};
-const TRAY_ID = {course:'trayCourse', component:'trayComponent', subject:'traySubject'};
+/* component pool (mirrors the Components tab) + sample courses for preview */
+const POOL = ['College Composition','Human Anatomy','Introduction to Psychology','Medical Terminology','College Algebra'];
+const POOL_COURSES = {
+  'College Composition': ['ENGL 1 — Composition (UCLA)','ENGL 100 — College Writing (USC)','ENGWR 101 — Composition (UC San Diego)'],
+  'Human Anatomy': ['BIOL 6A — Human Anatomy (UCLA)','BISC 240 — Anatomy (USC)'],
+  'Introduction to Psychology': ['PSYCH 10 — Introductory Psychology (UCLA)','PSYC 100 — Introduction to Psychology (USC)','Exclusive — take one: PSYC 1 / PSYC 1H (UC San Diego)'],
+  'Medical Terminology': ['HLTH 50 — Medical Terminology (USC)','ALDH 110 — Medical Terminology (Cal State Long Beach)'],
+  'College Algebra': ['MATH 1 — College Algebra (UCLA)','MATH 108 — Algebra (USC)','MATH 96 — Algebra (UC San Diego)'],
+};
 
-// Each requirement is its own group: a title, an AND/OR connector, and its options.
-let groups = [
-  { title:'Required Core', combine:'AND', items:[
-    {type:'course', institution:'UCLA', course:'ENGL 101 — College Composition', title:'College Composition', notes:'', grade:'C', home:false},
-    {type:'course', institution:'USC', course:'ENGL 105 — Critical Reading & Writing', title:'Critical Reading & Writing', notes:'', grade:'C', home:false},
-  ]},
-];
-let activeGroup = null, editIndex = null;
+/* model: a tree of groups; items are 'component' or nested 'group' */
+function newGroup(){ return { kind:'group', op:'AND', items:[] }; }
+function newComponent(){ return { kind:'component', name:'', display:'', notes:'', grade:'', pick:'', exclude:'' }; }
+let tree = { kind:'group', op:'AND', items:[
+  { kind:'component', name:'College Composition', display:'', notes:'', grade:'C', pick:'1', exclude:'' },
+] };
+function nodeAt(p){ let n=tree; for(const i of p) n=n.items[i]; return n; }
 
-function reqHomeOnly(){ return document.getElementById('hio').checked; }
-function isHome(it){ return reqHomeOnly() || !!it.home; }
-function nameOf(it){
-  if(it.type==='course') return it.course || it.title || 'Course';
-  if(it.type==='component') return it.title || it.component || 'Component';
-  return it.title || (it.subject ? it.subject + ' (Subject)' : 'Subject');
-}
-function metaOf(it){
-  const sep = ' <span class="sep">|</span> ';
-  if(it.type==='course') return [it.institution, 'Min Grade: '+it.grade, it.title||''].filter(Boolean).join(sep);
-  if(it.type==='component') return ['Min Grade: '+it.grade, 'Pick '+it.pick+' course'+(it.pick=='1'?'':'s')].join(sep);
-  return [it.institution, 'Min Grade: '+it.grade, 'Pick '+it.pick+' course'+(it.pick=='1'?'':'s')+' ('+it.level+'+)'].join(sep);
-}
-function itemCard(it, gi, i){
-  return `<div class="req-item t-${it.type}" role="button" tabindex="0" onclick="openTray('${it.type}',${gi},${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openTray('${it.type}',${gi},${i});}">
-    <div class="grow">
-      <span class="req-tag">${TYPE_LABEL[it.type]}</span>${isHome(it)?'<span class="tag-hio sm">Home institution only</span>':''}
-      <div class="req-name">${nameOf(it)}</div>
-      <div class="req-meta">${metaOf(it)}</div>
+const GRADES = ['','C','B','A'];
+function selOpts(arr,v,empty){ return (empty?`<option value="">${empty}</option>`:'')+arr.filter(x=>x!=='').map(o=>`<option${o===v?' selected':''}>${esc(o)}</option>`).join(''); }
+function pickOpts(v){ return '<option value="">Any</option>'+[1,2,3,4,5].map(n=>`<option value="${n}"${String(v)===String(n)?' selected':''}>${n}</option>`).join(''); }
+
+function compCard(it,p){
+  const ps=JSON.stringify(p);
+  return `<div class="rq-item">
+    <span class="rq-tag">Component</span>
+    <div class="rq-item__top">
+      <select class="select" onchange="upd(${ps},'name',this.value)">
+        <option value="">Please select one</option>
+        ${POOL.map(o=>`<option${o===it.name?' selected':''}>${esc(o)}</option>`).join('')}
+      </select>
+      <div class="rq-acts"><button class="rd-iconbtn rd-iconbtn--del" aria-label="Remove" onclick="rm(${ps})">${TRASH}</button></div>
     </div>
-    <div class="req-acts">
-      <button class="row-menu" onclick="event.stopPropagation();openTray('${it.type}',${gi},${i})" aria-label="Edit">${PENCIL}</button>
-      <button class="row-menu" onclick="event.stopPropagation();removeItem(${gi},${i})" aria-label="Remove">${TRASH}</button>
+    <div class="rq-fields">
+      <div class="field"><label class="mini">Display title</label><input class="input" value="${esc(it.display)}" oninput="upd(${ps},'display',this.value)" placeholder="Shown to students (optional)"></div>
+      <div class="field"><label class="mini">Component notes</label><input class="input" value="${esc(it.notes)}" oninput="upd(${ps},'notes',this.value)" placeholder="Optional"></div>
+    </div>
+    <div class="rq-row3">
+      <div class="field"><label class="mini">Minimum grade</label><select class="select" onchange="upd(${ps},'grade',this.value)">${selOpts(GRADES,it.grade,'No minimum')}</select></div>
+      <div class="field"><label class="mini">Pick X courses</label><select class="select" onchange="upd(${ps},'pick',this.value)">${pickOpts(it.pick)}</select></div>
+      <div class="field"><label class="mini">Exclude subjects <span class="muted" style="text-transform:none;">(comma separated)</span></label><input class="input" value="${esc(it.exclude)}" oninput="upd(${ps},'exclude',this.value)" placeholder="e.g. BIOL, CHEM"></div>
     </div>
   </div>`;
 }
-
-function render(){
-  const root = document.getElementById('groups');
-  root.innerHTML = groups.map((g, gi) => {
-    const chip = `<div class="conn-row"><span class="or-chip">${g.combine}</span></div>`;
-    const cards = g.items.map((it,i)=>itemCard(it, gi, i)).join(chip)
-      || '<p class="muted" style="font-size:13px; margin:0 0 12px;">No options yet — add a course, component, or subject below.</p>';
-    return `<div class="req-group-block" style="margin-bottom:24px;">
-      ${cards}
-      <div class="req-connector" style="margin-top:12px;">
-        <select class="select" style="width:120px;" onchange="setCombine(${gi}, this.value)">
-          <option${g.combine==='AND'?' selected':''}>AND</option><option${g.combine==='OR'?' selected':''}>OR</option>
-        </select>
-        <button class="add-link" onclick="openTray('component',${gi})"><span class="circ">+</span> Add Component</button>
-        <button class="add-link" onclick="openTray('course',${gi})"><span class="circ">+</span> Add Course</button>
-        <button class="add-link" onclick="openTray('subject',${gi})"><span class="circ">+</span> Add Subject</button>
-      </div>
-    </div>`;
-  }).join('');
+function groupBlock(node,p){
+  const ps=JSON.stringify(p);
+  const nested=p.length>0;
+  const items = node.items.map((it,i)=> it.kind==='group'?groupBlock(it,p.concat(i)):compCard(it,p.concat(i))).join('');
+  const body = items || '<p class="b-empty" style="margin:0 0 4px;">Nothing added yet — add a component or a nested requirement below.</p>';
+  return `<div class="rq-grp${nested?' rq-grp--nested':''}">
+    ${nested?`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="rq-tag" style="margin:0;">Requirement</span><button class="rd-iconbtn rd-iconbtn--del" aria-label="Remove requirement" onclick="rm(${ps})">${TRASH}</button></div>`:''}
+    ${body}
+    <div class="rq-opbar">
+      <div class="rq-op"><select class="select" onchange="updOp(${ps},this.value)"><option value="AND"${node.op==='AND'?' selected':''}>AND</option><option value="OR"${node.op==='OR'?' selected':''}>OR</option></select><span>how these combine</span></div>
+      <button type="button" class="add-link" onclick="add(${ps},'component')"><span class="circ">+</span> Component</button>
+      <button type="button" class="add-link" onclick="add(${ps},'group')"><span class="circ">+</span> Requirement</button>
+    </div>
+  </div>`;
 }
+function render(){ document.getElementById('def').innerHTML = groupBlock(tree,[]); }
 
-function setCombine(gi, v){ groups[gi].combine = v; render(); }
-function addGroup(){ groups.push({ title:'', combine:'AND', items:[] }); render(); }
+function upd(p,k,v){ nodeAt(p)[k]=v; }                 // text/select fields — no re-render (keep focus)
+function updOp(p,v){ nodeAt(p).op=v; }
+function add(p,kind){ nodeAt(p).items.push(kind==='group'?newGroup():newComponent()); render(); }
+function rm(p){ const parent=nodeAt(p.slice(0,-1)); parent.items.splice(p[p.length-1],1); render(); }
 
-function setVal(id,v){ const el=document.getElementById(id); if(el) el.value = v==null?'':v; }
-function getVal(id){ const el=document.getElementById(id); return el ? el.value.trim() : ''; }
-
-function openTray(type, gi, idx){
-  activeGroup = gi;
-  editIndex = (idx==null) ? null : idx;
-  const it = editIndex==null ? null : groups[gi].items[editIndex];
-  const titleId = {course:'courseTitle', component:'componentTitle', subject:'subjectTitle'}[type];
-  document.getElementById(titleId).textContent = (editIndex==null?'Add ':'Edit ')+TYPE_LABEL[type];
-  if(type==='course'){
-    setVal('c_inst', it&&it.institution); setVal('c_course', it&&it.course); setVal('c_title', it&&it.title);
-    setVal('c_notes', it&&it.notes); setVal('c_grade', it&&it.grade);
-    const home = document.getElementById('c_home'), note = document.getElementById('c_home_note');
-    if(reqHomeOnly()){ home.checked = true; home.disabled = true; note.style.display='block'; }
-    else { home.checked = it ? !!it.home : false; home.disabled = false; note.style.display='none'; }
-  } else if(type==='component'){
-    setVal('m_comp', it&&it.component); setVal('m_title', it&&it.title); setVal('m_notes', it&&it.notes);
-    setVal('m_grade', it&&it.grade); setVal('m_pick', (it&&it.pick)||'1'); setVal('m_exclude', (it&&it.exclude)||'None');
-  } else {
-    setVal('s_inst', it&&it.institution); setVal('s_subject', it&&it.subject); setVal('s_title', it&&it.title);
-    setVal('s_notes', it&&it.notes); setVal('s_grade', it&&it.grade); setVal('s_level', (it&&it.level)||''); setVal('s_pick', (it&&it.pick)||'1');
-  }
-  document.getElementById(TRAY_ID[type]).classList.add('show');
-}
-function closeTray(id){ document.getElementById(id).classList.remove('show'); }
-
-function saveTray(type){
-  let it;
-  if(type==='course'){
-    if(!getVal('c_inst') || !getVal('c_course') || !getVal('c_grade')){ liveToast('Pick an institution, course, and minimum grade'); return; }
-    it = {type:'course', institution:getVal('c_inst'), course:getVal('c_course'), title:getVal('c_title'), notes:getVal('c_notes'), grade:getVal('c_grade'), home:document.getElementById('c_home').checked};
-  } else if(type==='component'){
-    if(!getVal('m_comp') || !getVal('m_title') || !getVal('m_grade')){ liveToast('Pick a component, display title, and minimum grade'); return; }
-    it = {type:'component', component:getVal('m_comp'), title:getVal('m_title'), notes:getVal('m_notes'), grade:getVal('m_grade'), pick:getVal('m_pick'), exclude:getVal('m_exclude')};
-  } else {
-    if(!getVal('s_inst') || !getVal('s_subject') || !getVal('s_grade') || !getVal('s_level')){ liveToast('Fill institution, subject, grade, and course level'); return; }
-    it = {type:'subject', institution:getVal('s_inst'), subject:getVal('s_subject'), title:getVal('s_title')||getVal('s_subject'), notes:getVal('s_notes'), grade:getVal('s_grade'), level:getVal('s_level'), pick:getVal('s_pick')};
-  }
-  const g = groups[activeGroup];
-  if(editIndex==null) g.items.push(it); else g.items[editIndex] = it;
-  render();
-  closeTray(TRAY_ID[type]);
-  liveToast(editIndex==null ? TYPE_LABEL[type]+' added' : TYPE_LABEL[type]+' updated');
-  editIndex = null;
-}
-
-function removeItem(gi, i){
-  confirmModal({
-    header:'Remove item', title:'Remove this from the requirement?',
-    body:'It will no longer count toward fulfilling this requirement.', confirmLabel:'Remove',
-    onConfirm:()=>{ groups[gi].items.splice(i,1); render(); liveToast('Item removed'); }
+/* preview: resolve chosen components to their courses */
+function collect(node, lines, depth){
+  const ind = '&nbsp;'.repeat(depth*4);
+  node.items.forEach(it=>{
+    if(it.kind==='group'){ lines.push(`${ind}<b>${node.op}</b> — nested requirement:`); collect(it, lines, depth+1); }
+    else if(it.name){
+      const title = it.display || it.name;
+      const rule = [ it.pick?`pick ${it.pick}`:'', it.grade?`min grade ${it.grade}`:'' ].filter(Boolean).join(', ');
+      lines.push(`${ind}<b>${esc(title)}</b>${rule?` <span class="muted">(${esc(rule)})</span>`:''}`);
+      (POOL_COURSES[it.name]||[]).forEach(c=> lines.push(`${ind}&nbsp;&nbsp;&bull; ${esc(c)}`));
+    }
   });
 }
-
-function liveToast(msg){
-  const t=document.createElement('div'); t.className='toast'; t.textContent=msg;
-  document.body.appendChild(t); requestAnimationFrame(()=>t.classList.add('show'));
-  setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),300); }, 2200);
+function openPreview(){
+  const lines=[]; collect(tree, lines, 0);
+  document.getElementById('pvBody').innerHTML =
+    `<p class="tray-sub">How this requirement resolves for students — components combine with <b>${tree.op}</b>, and each pulls its campuses' courses.</p>`
+    + (lines.length? `<div class="b-note" style="line-height:1.9;">${lines.join('<br>')}</div>` : '<div class="b-note">Add a component to preview.</div>');
+  document.getElementById('pv').classList.add('show');
 }
+function closePreview(){ document.getElementById('pv').classList.remove('show'); }
+document.getElementById('pv').addEventListener('click', e=>{ if(e.target.id==='pv') closePreview(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePreview(); });
 
-document.querySelectorAll('.tray-overlay').forEach(ov=>ov.addEventListener('click',e=>{ if(e.target===ov) ov.classList.remove('show'); }));
-document.getElementById('hio').addEventListener('change', render);
-
-function save(){
-  sessionStorage.setItem('ccs_req_added','1');
-  sessionStorage.setItem('ccs_req_hio', reqHomeOnly() ? '1' : '');
-  flashToast('Requirement added');
-  go('program-detail.html');
-}
-
+function save(){ flashToast('Requirement saved'); go('program-detail.html'); }
 render();
 </script>
 </body>
