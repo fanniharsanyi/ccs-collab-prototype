@@ -4,8 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Introduction to Psychology — Component</title>
-<link rel="stylesheet" href="assets/styles.css?v=26">
+<link rel="stylesheet" href="assets/styles.css?v=27">
 <style>
+  /* role switch */
+  .rolebar { display:flex; align-items:center; gap:12px; flex-wrap:wrap; background:#F3F6FB; border:1px solid #DCE6F3; border-radius:10px; padding:11px 14px; margin-bottom:16px; }
+  .rolebar__lbl { font-size:12.5px; font-weight:700; color:#33485c; }
+  .rolebar__hint { font-size:12.5px; color:#576773; }
+  .seg { display:inline-flex; border:1px solid var(--gray-300); border-radius:8px; overflow:hidden; background:#fff; }
+  .seg button { border:0; background:#fff; padding:7px 14px; font-size:13px; font-weight:600; color:#33485c; cursor:pointer; border-right:1px solid var(--gray-300); }
+  .seg button:last-child { border-right:0; }
+  .seg button[aria-pressed=true] { background:var(--c-link); color:#fff; }
+  .role-chip { display:inline-flex; align-items:center; gap:7px; font-size:12.5px; font-weight:700; color:#1953A8; background:#EAF1FB; border:1px solid #CFE0F5; border-radius:6px; padding:5px 10px; }
   /* multi-select course picker */
   .ms { border:1px solid var(--gray-300); border-radius:8px; background:var(--c-form-input-bg); padding:7px 8px; display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
   .ms__chip { display:inline-flex; align-items:center; gap:6px; background:#EAF1FB; border:1px solid #CFE0F5; color:#1953A8; border-radius:6px; padding:3px 8px; font-size:12.5px; font-weight:600; }
@@ -18,12 +27,12 @@
   .ms-opt:hover, .ms-opt.active { background:#EAF1FB; }
   .ms-opt[aria-disabled=true] { color:#9aa3ad; cursor:default; background:none; }
   /* component courses table */
-  .cc-excl { }
   .cc-excl__tag { display:inline-block; font-size:10px; letter-spacing:.06em; text-transform:uppercase; font-weight:700; color:#9c6612; background:#F3E7CF; border-radius:5px; padding:2px 7px; margin-bottom:6px; }
   .cc-excl ul { margin:0; padding-left:18px; }
   .cc-excl li { font-size:13px; margin:2px 0; }
   .cc-code { font-weight:700; }
   td.cc-actions { width:48px; text-align:right; }
+  tr.cc-mine td { background:#FCFDFF; }
 </style>
 </head>
 <body>
@@ -35,22 +44,23 @@
       <div class="detail-head" style="margin-top:12px;">
         <div class="detail-title-row">
           <h1 class="h1">Introduction to Psychology</h1>
-          <div class="detail-actions">
-            <button class="btn btn-outline btn-md" onclick="go('import-equivalencies-1.html')">Import courses (CSV)</button>
-            <button class="btn btn-outline btn-md">Edit</button>
-          </div>
+          <div class="detail-actions" id="headActions"></div>
         </div>
         <p class="detail-desc">A curated set of courses drawn from the collaborative's participating institutions. General psychology prerequisite for patient-care tracks.</p>
       </div>
 
-      <!-- ADD COURSES -->
-      <div class="card">
+      <!-- ROLE SWITCH (demo) -->
+      <div class="rolebar" id="rolebar"></div>
+
+      <!-- ADD COURSES (gated by role) -->
+      <div class="card" id="addCard">
         <h2 class="card-title">Add courses</h2>
-        <p class="card-sub" style="margin-top:4px;">Pick an institution, then select one or more courses.</p>
+        <p class="card-sub" id="addSub" style="margin-top:4px;">Pick an institution, then select one or more courses.</p>
 
         <div class="field" style="margin-top:16px; max-width:420px;">
           <label>Institution</label>
           <select class="select" id="inst"></select>
+          <p class="field-help" id="instHint" style="display:none;"></p>
         </div>
 
         <div class="field">
@@ -73,6 +83,11 @@
         <div style="margin-top:16px;"><button class="btn btn-primary btn-md" onclick="addCourses()">Add</button></div>
       </div>
 
+      <!-- read-only notice for manager-only -->
+      <div class="status-notice sn-info" id="readNote" role="status" style="display:none;">
+        <span class="sicon">&#9432;</span><span>You're viewing as a <b>manager</b> — your role builds structure, so adding courses is turned off. Contributors at each campus add the courses. To add courses yourself, give yourself the contributor role.</span>
+      </div>
+
       <!-- COMPONENT COURSES -->
       <div class="card">
         <h2 class="card-title">Component Courses</h2>
@@ -81,15 +96,12 @@
           <thead><tr><th>Course(s)</th><th>Institution</th><th></th></tr></thead>
           <tbody id="ccBody"></tbody>
         </table>
-        <div id="ccEmpty" class="status-notice sn-info" role="status" style="display:none; margin-top:4px;">
-          <span class="sicon">&#9432;</span><span>No courses in this component yet. Use “Add courses” above — each campus’s contributor adds the courses that count here.</span>
-        </div>
       </div>
     </div>
   </main>
 </div>
 
-<script src="assets/app.js?v=26"></script>
+<script src="assets/app.js?v=27"></script>
 <script>
 mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network', href:'collab-detail.html'}, {label:'Components', href:'collab-detail.html#component'}, {label:'Introduction to Psychology'}]);
 
@@ -97,23 +109,62 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;
 function liveToast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); requestAnimationFrame(()=>t.classList.add('show')); setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),300); }, 2200); }
 const TRASH='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
 
+/* ===== role config =====
+   MODE 'super'       → super-admin proto: switch between Manager / Manager + contributor.
+   MODE 'contributor' → campus-admin proto: always a contributor (no switch).
+   MY_CAMPUS = the logged-in person's campus; contributors can only add/manage that campus. */
+const MODE = 'super';
+const MY_CAMPUS = 'UCLA';
+let role = MODE === 'contributor' ? 'contributor' : 'manager';   // super-admin defaults to manager (read-only)
+function canAdd(){ return role === 'contributor' || role === 'both'; }
+
 const INSTITUTIONS = ['UCLA', 'USC', 'UC San Diego', 'Cal State Long Beach'];
 const COURSE_OPTIONS = [
   'PSYC 1 — Psychology', 'PSYC 1H — Psychology (Honors)', 'PSYCH 10 — Introductory Psychology',
   'PSYC 100 — Introduction to Psychology', 'PSY 5 — General Psychology', 'PSYC 110 — Mind & Behavior',
   'PSYC 41 — Lifespan Development', 'PSYC 33 — Social Psychology',
 ];
-
-/* Each entry is one row in the Component Courses table.
-   exclusive=true with >1 course renders as an "Exclusive — take one" group. */
 let entries = [
-  { inst:'UCLA',                 courses:['PSYCH 10 — Introductory Psychology'],                                  exclusive:false },
-  { inst:'USC',                  courses:['PSYC 100 — Introduction to Psychology'],                               exclusive:false },
-  { inst:'UC San Diego',         courses:['PSYC 1 — Psychology','PSYC 1H — Psychology (Honors)'],                 exclusive:true  },
+  { inst:'UCLA',                 courses:['PSYCH 10 — Introductory Psychology'],                  exclusive:false },
+  { inst:'USC',                  courses:['PSYC 100 — Introduction to Psychology'],               exclusive:false },
+  { inst:'UC San Diego',         courses:['PSYC 1 — Psychology','PSYC 1H — Psychology (Honors)'], exclusive:true  },
 ];
 
-/* ---- institution select ---- */
-document.getElementById('inst').innerHTML = INSTITUTIONS.map(i=>`<option>${esc(i)}</option>`).join('');
+/* ---- role bar + gating ---- */
+function renderRolebar(){
+  const bar = document.getElementById('rolebar');
+  if (MODE === 'contributor'){
+    bar.innerHTML = `<span class="rolebar__lbl">Signed in as</span><span class="role-chip">Contributor · ${esc(MY_CAMPUS)}</span><span class="rolebar__hint">You add ${esc(MY_CAMPUS)}'s courses to this component.</span>`;
+  } else {
+    bar.innerHTML = `<span class="rolebar__lbl">Viewing as</span>
+      <span class="seg" role="group" aria-label="Role">
+        <button aria-pressed="${role==='manager'}" onclick="setRole('manager')">Manager</button>
+        <button aria-pressed="${role==='both'}" onclick="setRole('both')">Manager + contributor</button>
+      </span>
+      <span class="rolebar__hint">${role==='manager' ? 'Structure only — adding courses is off.' : 'You also hold the contributor role for '+esc(MY_CAMPUS)+'.'}</span>`;
+  }
+}
+function setRole(r){ role = r; applyRole(); }
+function applyRole(){
+  renderRolebar();
+  const add = canAdd();
+  document.getElementById('addCard').style.display = add ? '' : 'none';
+  document.getElementById('readNote').style.display = (MODE==='super' && !add) ? 'flex' : 'none';
+  document.getElementById('headActions').innerHTML = add
+    ? `<button class="btn btn-outline btn-md" onclick="go('import-equivalencies-1.html')">Import courses (CSV)</button>`
+    : `<button class="btn btn-outline btn-md">Edit details</button>`;
+  populateInst();
+  render();
+}
+function populateInst(){
+  const sel = document.getElementById('inst');
+  // contributors / manager+contributor can only add for their own campus → locked
+  sel.innerHTML = `<option>${esc(MY_CAMPUS)}</option>`;
+  sel.value = MY_CAMPUS; sel.disabled = true;
+  const hint = document.getElementById('instHint');
+  hint.style.display = 'block';
+  hint.textContent = `You can only add courses for your campus (${MY_CAMPUS}).`;
+}
 
 /* ---- multi-select course picker ---- */
 let selected = [];
@@ -140,13 +191,10 @@ document.addEventListener('click', e=>{ if(!document.getElementById('ms').contai
 /* ---- add / render entries ---- */
 function addCourses(){
   if(!selected.length){ msInput.focus(); return; }
-  const inst = document.getElementById('inst').value;
+  const inst = MY_CAMPUS;                       // always the contributor's own campus
   const single = document.getElementById('single').checked;
-  if(single && selected.length>1){
-    entries.push({ inst, courses:selected.slice(), exclusive:true });
-  } else {
-    selected.forEach(c=> entries.push({ inst, courses:[c], exclusive:false }));
-  }
+  if(single && selected.length>1){ entries.push({ inst, courses:selected.slice(), exclusive:true }); }
+  else { selected.forEach(c=> entries.push({ inst, courses:[c], exclusive:false })); }
   selected = []; renderChips(); renderMenu();
   document.getElementById('single').checked = false;
   render(); liveToast('Courses added');
@@ -154,19 +202,21 @@ function addCourses(){
 function removeEntry(i){ entries.splice(i,1); render(); liveToast('Removed'); }
 function render(){
   const body = document.getElementById('ccBody');
+  const mayEdit = canAdd();
   body.innerHTML = entries.map((e,i)=>{
     const cell = (e.exclusive && e.courses.length>1)
       ? `<div class="cc-excl"><span class="cc-excl__tag">Exclusive — take one</span><ul>${e.courses.map(c=>`<li>${fmt(c)}</li>`).join('')}</ul></div>`
       : fmt(e.courses[0]);
-    return `<tr><td>${cell}</td><td>${esc(e.inst)}</td><td class="cc-actions"><button class="rd-iconbtn rd-iconbtn--del" aria-label="Remove" onclick="removeEntry(${i})">${TRASH}</button></td></tr>`;
+    const mine = e.inst === MY_CAMPUS;
+    // only your own campus rows are editable; others are read-only
+    const act = (mayEdit && mine) ? `<button class="rd-iconbtn rd-iconbtn--del" aria-label="Remove" onclick="removeEntry(${i})">${TRASH}</button>` : '';
+    return `<tr class="${mayEdit && mine ? 'cc-mine' : ''}"><td>${cell}</td><td>${esc(e.inst)}${mayEdit&&mine?' <span class="muted">(your campus)</span>':''}</td><td class="cc-actions">${act}</td></tr>`;
   }).join('');
   const n = entries.length;
   document.getElementById('ccCount').textContent = `${n} ${n===1?'entry':'entries'} in this component`;
-  document.getElementById('ccEmpty').style.display = n ? 'none' : 'flex';
 }
-/* bold the course code (text up to the em dash) */
 function fmt(c){ const m = String(c).split(' — '); return m.length>1 ? `<span class="cc-code">${esc(m[0])}</span> ${esc(m.slice(1).join(' — '))}` : esc(c); }
-renderChips(); render();
+renderChips(); applyRole();
 </script>
 </body>
 </html>
