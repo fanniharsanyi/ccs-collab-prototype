@@ -27,7 +27,13 @@
         <span><b>Draft · Updated on 06.06.2026.</b><br>Review the program details and its requirements before publishing. Courses are added by contributors in the Components tab.</span>
       </div>
 
-      <!-- ===================== PROGRAM DETAILS ===================== -->
+      <div class="tabs" role="tablist" aria-label="Program sections">
+        <button class="tab" role="tab" aria-selected="true" id="tab-details" onclick="switchTab('details')">Details</button>
+        <button class="tab" role="tab" aria-selected="false" id="tab-requirement" onclick="switchTab('requirement')">Requirements</button>
+      </div>
+
+      <!-- ===================== DETAILS PANEL ===================== -->
+      <div id="panel-details">
       <div class="card">
         <h2 class="card-title">Program Details</h2>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px 40px; font-size:13px; margin-top:16px;">
@@ -95,8 +101,10 @@
           </div>
         </div>
       </div>
+      </div><!-- /panel-details -->
 
-      <!-- ===================== PROGRAM REQUIREMENTS (list) ===================== -->
+      <!-- ===================== REQUIREMENTS PANEL ===================== -->
+      <div id="panel-requirement" class="hide">
       <div class="card">
         <div class="page-head" style="margin-bottom:8px;">
           <div class="grow"><h2 class="card-title" style="margin:0;">Program Requirements</h2><p class="card-sub" style="margin:4px 0 0;">Each requirement is a block of rules made of components. A program can have several.</p></div>
@@ -111,6 +119,7 @@
           </tbody>
         </table>
       </div>
+      </div><!-- /panel-requirement -->
     </div>
   </main>
 </div>
@@ -118,6 +127,14 @@
 <script src="assets/app.js?v=26"></script>
 <script>
 mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network', href:'collab-detail.html'}, {label:'Registered Nursing (RN)'}]);
+
+function switchTab(which){
+  ['details','requirement'].forEach(t=>{
+    document.getElementById('tab-'+t).setAttribute('aria-selected', t===which);
+    document.getElementById('panel-'+t).classList.toggle('hide', t!==which);
+  });
+}
+if (location.hash === '#requirement' || location.hash === '#requirements') switchTab('requirement');
 
 function tryPublish() {
   confirmModal({
