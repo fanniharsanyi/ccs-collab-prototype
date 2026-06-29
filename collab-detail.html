@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Southern CA Health Sciences Network</title>
+<link rel="stylesheet" href="assets/styles.css?v=25">
+</head>
+<body>
+<div class="app" id="app">
+  <main>
+    <div class="page">
+      <button class="back-link" onclick="go('collaboratives.html')"><span class="chev-left"></span> Back</button>
+
+      <div class="detail-head" style="margin-top:12px;">
+        <div class="detail-title-row">
+          <h1 class="h1">Southern CA Health Sciences Network</h1>
+          <span class="badge badge-draft" id="statusBadge">Draft</span>
+          <div class="detail-actions" id="detailActions"></div>
+        </div>
+        <p class="detail-meta">Created by <b>James R. Holloway</b><br>Draft last saved on: 05.05.2024 | Created on: 05.05.2024</p>
+        <p class="detail-desc">Connecting Southern California colleges to expand access to health sciences programs — from nursing to pharmacy technology.</p>
+        <div class="partners"><span class="muted">Participating Institutions:</span> <span class="pill">UCLA</span> <span class="pill">USC</span></div>
+      </div>
+
+      <div class="status-notice sn-info hide" id="lockNotice" role="status"><span class="sicon">&#128274;</span><span id="lockText"></span></div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" id="tab-program" onclick="switchTab('program')">Programs</button>
+        <button class="tab" role="tab" aria-selected="false" id="tab-component" onclick="switchTab('component')">Components</button>
+        <button class="tab" role="tab" aria-selected="false" id="tab-admin" onclick="switchTab('admin')">Admins</button>
+      </div>
+
+      <!-- PROGRAM TAB -->
+      <section id="panel-program" class="card">
+        <div class="page-head" style="margin-bottom:16px;">
+          <p class="count-line grow" style="margin:0;">12 programs found</p>
+          <a class="btn btn-outline btn-md" href="add-program-1.html">Add Program</a>
+        </div>
+        <table class="table">
+          <thead><tr><th>Name</th><th>Status</th><th>Category</th><th>Start Term</th><th>End Term</th><th>Requirements</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><a class="name-link" href="program-detail.html">Registered Nursing (RN)</a></td><td><span class="badge badge-published">Published</span></td><td>Patient Care</td><td>Spring 2024</td><td>Winter 2025</td><td>3</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+            <tr><td><a class="name-link" href="program-detail.html">Licensed Vocational Nursing (LVN)</a></td><td><span class="badge badge-draft">Draft</span></td><td>Patient Care</td><td>Spring 2024</td><td>Winter 2025</td><td>7</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+            <tr><td><a class="name-link" href="program-detail.html">Medical Assisting</a></td><td><span class="badge badge-published">Published</span></td><td>Clinical Support</td><td>Spring 2024</td><td>Winter 2025</td><td>7</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+            <tr><td><a class="name-link" href="program-detail.html">Pharmacy Technology</a></td><td><span class="badge badge-draft">Draft</span></td><td>Pharmacy</td><td>Spring 2024</td><td>Winter 2025</td><td>7</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+            <tr><td><a class="name-link" href="program-detail.html">Radiologic Technology</a></td><td><span class="badge badge-published">Published</span></td><td>Diagnostic Imaging</td><td>Spring 2024</td><td>Winter 2025</td><td>7</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+            <tr><td><a class="name-link" href="program-detail.html">Respiratory Therapy</a></td><td><span class="badge badge-draft">Draft</span></td><td>Respiratory</td><td>Spring 2024</td><td>Winter 2025</td><td>7</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+            <tr><td><a class="name-link" href="program-detail.html">Emergency Medical Technician (EMT)</a></td><td><span class="badge badge-published">Published</span></td><td>Urgent Care</td><td>Spring 2024</td><td>Winter 2025</td><td>7</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+            <tr><td><a class="name-link" href="program-detail.html">Health Information Technology</a></td><td><span class="badge badge-draft">Draft</span></td><td>Health Administration</td><td>Spring 2024</td><td>Winter 2025</td><td>7</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+          </tbody>
+        </table>
+        <div class="pager">
+          <button>&lsaquo; Prev</button>
+          <button class="active">1</button><button>2</button><button>3</button><button>4</button><button>5</button>
+          <button>…</button><button>138</button><button>Next &rsaquo;</button>
+          <span class="rpp">Results per page <select class="select"><option>10</option><option>25</option><option>50</option></select></span>
+        </div>
+      </section>
+
+      <!-- COMPONENTS TAB -->
+      <section id="panel-component" class="card hide">
+        <div class="status-notice sn-info" role="status" style="margin:0 0 16px;">
+          <span class="sicon">&#9432;</span>
+          <span><b>Components are the shared building blocks of this collaborative.</b><br>You name and describe each component; contributors at each campus add their own courses to it. Programs reuse these components, so courses are entered once and shared everywhere.</span>
+        </div>
+        <div class="page-head" style="margin-bottom:16px;">
+          <p class="count-line grow" style="margin:0;">5 components</p>
+          <a class="btn btn-outline btn-md" href="add-component.html">Add Component</a>
+        </div>
+        <table class="table">
+          <thead><tr><th>Component</th><th>Display name</th><th>Description</th><th>Courses</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><a class="name-link" href="component-detail.html">College Composition</a></td><td>English Composition</td><td class="muted">Foundational writing course required across all health programs.</td><td>4 courses · 3 campuses</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+            <tr><td><a class="name-link" href="component-detail.html">Human Anatomy</a></td><td>Anatomy &amp; Physiology</td><td class="muted">Lower-division anatomy accepted toward clinical programs.</td><td>3 courses · 2 campuses</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+            <tr><td><a class="name-link" href="component-detail.html">Introduction to Psychology</a></td><td class="muted">—</td><td class="muted">General psychology prerequisite for patient-care tracks.</td><td>5 courses · 4 campuses</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+            <tr><td><a class="name-link" href="component-detail.html">Medical Terminology</a></td><td class="muted">—</td><td class="muted">Shared terminology course used across nursing and allied health.</td><td>2 courses · 2 campuses</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+            <tr><td><a class="name-link" href="component-detail.html">College Algebra</a></td><td>Quantitative Reasoning</td><td class="muted">Math requirement; each campus maps its own equivalent.</td><td>4 courses · 3 campuses</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="panel-admin" class="card hide">
+        <div class="page-head" style="margin-bottom:16px;">
+          <p class="count-line grow" style="margin:0;">12 collaborative contributors</p>
+          <a class="btn btn-outline btn-md" href="invite-admin.html">Invite Contributor</a>
+        </div>
+        <table class="table">
+          <thead><tr><th>Name</th><th>Email</th><th>Date Invited</th><th></th></tr></thead>
+          <tbody>
+            <tr><td>Adams, Brian T.</td><td>b.adams@cvc.edu</td><td>01.01.2026</td><td><button class="row-menu" aria-label="Remove administrator" title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button></td></tr>
+            <tr><td>Alvarez, Carmen R.</td><td>c.alvarez@cvc.edu</td><td>01.01.2026</td><td><button class="row-menu" aria-label="Remove administrator" title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button></td></tr>
+            <tr><td>Bennett, Susan L.</td><td>s.bennett@cvc.edu</td><td>01.01.2026</td><td><button class="row-menu" aria-label="Remove administrator" title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button></td></tr>
+            <tr><td>Carter, David M.</td><td>d.carter@cvc.edu</td><td>01.01.2026</td><td><button class="row-menu" aria-label="Remove administrator" title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button></td></tr>
+            <tr><td>Chen, Linda W.</td><td>l.chen@cvc.edu</td><td>01.01.2026</td><td><button class="row-menu" aria-label="Remove administrator" title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button></td></tr>
+            <tr><td>Coleman, James A.</td><td>j.coleman@cvc.edu</td><td>01.01.2026</td><td><button class="row-menu" aria-label="Remove administrator" title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button></td></tr>
+            <tr><td>Delgado, Patricia M.</td><td>p.delgado@cvc.edu</td><td>01.01.2026</td><td><button class="row-menu" aria-label="Remove administrator" title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button></td></tr>
+            <tr><td>Edwards, Robert K.</td><td>r.edwards@cvc.edu</td><td>01.01.2026</td><td><button class="row-menu" aria-label="Remove administrator" title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button></td></tr>
+          </tbody>
+        </table>
+        <div class="pager">
+          <button>&lsaquo; Prev</button>
+          <button class="active">1</button><button>2</button><button>3</button><button>4</button><button>5</button>
+          <button>…</button><button>138</button><button>Next &rsaquo;</button>
+          <span class="rpp">Results per page <select class="select"><option>10</option><option>25</option><option>50</option></select></span>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+<script src="assets/app.js?v=25"></script>
+<script>
+mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network'}]);
+
+function switchTab(which) {
+  ['program','component','admin'].forEach(t => {
+    document.getElementById('tab-' + t).setAttribute('aria-selected', t === which);
+    document.getElementById('panel-' + t).classList.toggle('hide', t !== which);
+  });
+}
+
+// Honor a deep link like collab-detail.html#admin (used after inviting contributors)
+if (location.hash === '#admin') switchTab('admin');
+if (location.hash === '#component') switchTab('component');
+
+// ---- Lifecycle: draft -> published (locked) / archived (gaps 1-3) ----
+const STATUS_KEY = 'ccs_collab_status';
+function getStatus(){ return sessionStorage.getItem(STATUS_KEY) || 'draft'; }
+function setStatus(s){ sessionStorage.setItem(STATUS_KEY, s); renderStatus(); }
+
+function renderStatus(){
+  const s = getStatus();
+  const badge = document.getElementById('statusBadge');
+  badge.textContent = s.charAt(0).toUpperCase() + s.slice(1);
+  badge.className = 'badge badge-' + s;
+
+  const acts = document.getElementById('detailActions');
+  if (s === 'draft')
+    acts.innerHTML = `<button class="btn btn-outline btn-md">Preview</button><button class="btn btn-primary btn-md" onclick="publish()">Publish</button>`;
+  else if (s === 'published')
+    acts.innerHTML = `<button class="btn btn-outline btn-md">Preview</button><button class="btn btn-outline btn-md" onclick="setStatus('draft')">Unpublish</button>`;
+  else
+    acts.innerHTML = `<button class="btn btn-outline btn-md">Preview</button><button class="btn btn-primary btn-md" onclick="setStatus('draft')">Restore to draft</button>`;
+
+  const locked = s !== 'draft';
+  const notice = document.getElementById('lockNotice'), text = document.getElementById('lockText');
+  notice.className = 'status-notice ' + (s === 'published' ? 'sn-success' : 'sn-info') + (locked ? '' : ' hide');
+  if (s === 'published') text.innerHTML = "<b>Published and locked.</b> Students can now see this collaborative. No further edits can be made by anyone — Unpublish to make changes.";
+  if (s === 'archived') text.innerHTML = "<b>Archived.</b> New students can't see or enroll; students already enrolled can still finish their courses.";
+
+  // editing is only possible in draft — disable add/edit affordances otherwise
+  document.querySelectorAll('.page-head a.btn, .page-head .btn, .row-menu').forEach(el => {
+    el.style.pointerEvents = locked ? 'none' : '';
+    el.style.opacity = locked ? '.45' : '';
+  });
+}
+
+function publish() {
+  confirmModal({
+    header: 'Review and publish',
+    title: 'Ready to publish this collaborative?',
+    body: "Review each program's requirements and the courses contributors added to the components before publishing. Once published, the collaborative is locked — no one (including you) can edit it until it's unpublished.",
+    confirmLabel: 'Publish',
+    onConfirm: () => { setStatus('published'); liveToast('Collaborative published'); }
+  });
+}
+function liveToast(msg){
+  const t=document.createElement('div'); t.className='toast'; t.textContent=msg;
+  document.body.appendChild(t); requestAnimationFrame(()=>t.classList.add('show'));
+  setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),300); }, 2200);
+}
+renderStatus();
+</script>
+</body>
+</html>

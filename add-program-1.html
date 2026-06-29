@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add Program · Basic Information</title>
+<link rel="stylesheet" href="assets/styles.css?v=22">
+</head>
+<body>
+<div class="app" id="app">
+  <main>
+    <div class="page">
+      <button class="back-link" onclick="go('collab-detail.html')"><span class="chev-left"></span> Back</button>
+      <h1 class="h1" style="margin-top:12px;">Add Program</h1>
+      <p class="lead">Define how this collaborative program works, including its settings.</p>
+
+      <div class="stepper">
+        <div class="step active"><span class="dot">1</span><span class="label">Basic Information</span></div>
+        <div class="step-line"></div>
+        <div class="step pending"><span class="dot">2</span><span class="label">Access &amp; Guidance</span></div>
+        <div class="step-line"></div>
+        <div class="step pending"><span class="dot">3</span><span class="label">Appearance</span></div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Program Details</h2>
+        <p class="card-sub">Name the program, set its category, and choose the terms it runs.</p>
+        <div class="field">
+          <label><span class="star">*</span> Program name</label>
+          <input class="input" value="Registered Nursing (RN)" placeholder="Enter the program name">
+        </div>
+        <div class="field" style="max-width:50%;"><label><span class="star">*</span> Category</label><select class="select"><option>Patient Care</option><option>Clinical Support</option><option>Pharmacy</option></select></div>
+        <p style="font-weight:600; font-size:13px; color:var(--c-link); margin:18px 0 8px;">Effective dates</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+          <div class="field"><label><span class="star">*</span> Start Term</label><select class="select"><option>Spring 2024</option><option>Fall 2024</option></select></div>
+          <div class="field"><label>End Term</label><select class="select"><option>Winter 2025</option><option>Spring 2025</option></select></div>
+        </div>
+        <div class="field">
+          <label><span class="star">*</span> Description</label>
+          <textarea class="textarea">A licensure-track program training students in patient care, clinical skills, and nursing theory — preparing graduates to sit for the NCLEX-RN exam and enter the workforce as registered nurses.</textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Terms and conditions</h2>
+        <p class="card-sub">Upload the official terms and conditions students must review before participating in this collaborative program.</p>
+        <label style="display:block; font-weight:500; font-size:12px; margin-bottom:6px;">Document</label>
+        <div class="file-input">
+          <span class="choose">Choose File</span>
+          <span class="fname">program_terms_and_conditions.pdf</span>
+        </div>
+        <p class="upload-help"><b>Allowed types:</b> application/pdf. <b>Max size allowed:</b> 10 Mb.</p>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn btn-transparent btn-md" onclick="go('collab-detail.html')">Cancel</button>
+        <button class="btn btn-primary btn-md" onclick="go('add-program-2.html')">Next</button>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/app.js?v=22"></script>
+<script>
+mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network', href:'collab-detail.html'}, {label:'Add Program'}]);
+// A brand-new program starts with no requirements.
+sessionStorage.removeItem('ccs_req_added');
+</script>
+</body>
+</html>

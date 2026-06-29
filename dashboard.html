@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Administrator Dashboard · CVC Exchange</title>
+<link rel="stylesheet" href="assets/styles.css?v=22">
+</head>
+<body>
+<div class="app" id="app">
+  <main>
+    <div class="page">
+      <div class="signin-notice" role="status">
+        <span class="accent"></span>
+        <span class="body">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="#4299E1"><circle cx="12" cy="12" r="10"/><rect x="11" y="10.5" width="2" height="6.5" rx="1" fill="#fff"/><circle cx="12" cy="7.3" r="1.3" fill="#fff"/></svg></span>
+          <span class="txt">You have been successfully signed in as admin@quottlyinc.com</span>
+        </span>
+      </div>
+
+      <h1 class="h1" style="margin-bottom:24px;">Administrator Dashboard for CVC Exchange</h1>
+
+      <div class="dash-grid">
+        <div class="dash-col">
+          <h3>Settings</h3>
+          <div class="dash-item"><a href="#">Accounts</a><p>Create / edit user accounts and view account details such as role and attributes.</p></div>
+          <div class="dash-item"><a href="#">Create User</a><p>Create new user accounts and set exchange, district, and campus-level permissions.</p></div>
+          <div class="dash-item"><a href="#">Feature Healthchecks</a><p>Quick overview of general Exchange setup. Check if some action is required.</p></div>
+          <div class="dash-item"><a href="#">Self-Service Configuration Portal</a><p>Manage integration settings.</p></div>
+        </div>
+
+        <div class="dash-col">
+          <h3>Course Management</h3>
+          <div class="dash-item"><a href="#">Exchange Courses</a><p>Make courses visible or hide them from the student view.</p></div>
+          <div class="dash-item"><a href="#">Sections</a><p>Make sections visible or hide them from the student view.</p></div>
+          <div class="dash-item"><a href="#">Session Management</a><p>Configure your session details and import sections.</p></div>
+          <div class="dash-item"><a href="#">CSV Validation</a><p>Preview results of a CSV import.</p></div>
+          <div class="dash-item"><a href="#">Requirements</a><p>See available requirements.</p></div>
+        </div>
+
+        <div class="dash-col">
+          <h3>Equivalencies Management</h3>
+          <div class="dash-item"><a href="#">Enrollments</a><p>Review enrollments.</p></div>
+          <div class="dash-item"><a href="#">Enrollment Steps Audit Report</a><p>Review a timeline of when students completed each enrollment step.</p></div>
+          <div class="dash-item"><a href="#">Financial Aid Requests</a><p>View, approve, or deny Financial Aid requests.</p></div>
+          <div class="dash-item"><a href="#">Term Transcript Report</a><p>Review transcripts to be sent to home colleges by term.</p></div>
+          <div class="dash-item"><a href="#">CCCApply Counts</a><p>Count of students who clicked to apply to another college through OpenCCC.</p></div>
+          <div class="dash-item"><a href="#">Transfer Review Weekly Digest Subscriptions</a><p>Find the campus admins subscribed to the transfer review weekly digest.</p></div>
+          <div class="dash-item"><a href="#">Students</a><p>View basic student information.</p></div>
+          <div class="dash-item">
+            <a href="collaboratives.html">Collaborative</a>
+            <p>Manage shared academic programs and institutional partnerships.</p>
+          </div>
+        </div>
+
+        <div class="dash-col">
+          <h3>Course Search Reports</h3>
+          <div class="dash-item"><a href="#">Saved Exchange Courses</a><p>This report displays the aggregate count of the courses that students saved to their dashboard.</p></div>
+          <div class="dash-item"><a href="#">Saved Searches</a><p>This report displays the number of general education requirement and course searches that students save to their dashboard.</p></div>
+          <div class="dash-item"><a href="#">Top Searches</a><p>This report displays the most common criteria used to filter by general education requirement, subject and course searches.</p></div>
+        </div>
+
+        <div class="dash-col">
+          <h3>History</h3>
+          <div class="dash-item"><a href="#">Log History</a><p>Displays a record of all actions taken by Exchange, District and Campus administrators.</p></div>
+          <div class="dash-item"><a href="#">Generated CSV Reports</a><p>Displays a record of all CSV reports you have previously generated.</p></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/app.js?v=22"></script>
+<script>mountChrome([{label:'Admin'}], {admin:true});</script>
+</body>
+</html>

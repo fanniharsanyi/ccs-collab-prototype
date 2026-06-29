@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Registered Nursing (RN)</title>
+<link rel="stylesheet" href="assets/styles.css?v=25">
+<style>
+  /* requirement-definition builder — read-only rows; all editing in the tray */
+  .b-grp{border:1px solid var(--gray-200); border-left:3px solid var(--c-link); border-radius:0 10px 10px 0; background:#fff; padding:16px 18px;}
+  .b-grp--nested{border-left-color:#B0741A; background:#FAF7F0;}
+  .b-grp__hdr{display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:14px;}
+  .b-grp__title{font-size:14px; color:var(--c-content-text-highlight);}
+  .b-grp__title b{font-weight:700;}
+  .b-grp__tag{display:inline-block; font-size:10px; letter-spacing:.06em; text-transform:uppercase; font-weight:700; color:#9c6612; background:#F3E7CF; border-radius:5px; padding:2px 7px; margin-right:8px; vertical-align:1px;}
+  .b-items{display:flex; flex-direction:column;}
+  .b-row{display:flex; align-items:center; justify-content:space-between; gap:12px; border:1px solid var(--gray-200); border-left:3px solid #B0741A; border-radius:8px; padding:11px 14px; background:#fff;}
+  .b-row--subject{border-left-color:var(--c-link);}
+  .b-row__body{display:flex; flex-wrap:wrap; align-items:baseline; gap:3px 10px;}
+  .b-row__k{font-size:10px; letter-spacing:.06em; text-transform:uppercase; font-weight:700; color:#9aa3ad; width:100%;}
+  .b-row__main{font-weight:600; font-size:13.5px; color:#222;}
+  .b-row__meta{font-size:12px; color:#576773;}
+  .b-row__acts{display:flex; gap:6px; flex:none;}
+  .b-conn{padding:6px 0 6px 4px;}
+  .b-empty{font-size:13px; color:#576773;}
+  .b-note{font-size:12.5px; color:#576773; background:#F3F6FB; border:1px solid #DCE6F3; border-radius:8px; padding:11px 13px; margin-top:4px; line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <main>
+    <div class="page">
+      <button class="back-link" onclick="go('collab-detail.html')"><span class="chev-left"></span> Back</button>
+
+      <div class="detail-head" style="margin-top:12px;">
+        <div class="detail-title-row">
+          <h1 class="h1">Registered Nursing (RN)</h1>
+          <div class="detail-actions">
+            <button class="btn btn-outline btn-md">Preview</button>
+            <button class="btn btn-primary btn-md" onclick="tryPublish()">Publish</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-notice sn-info" id="blocker" role="status">
+        <span class="sicon">&#9888;</span>
+        <span><b>Draft · Updated on 06.06.2026.</b><br>Review the program details and the requirement structure before publishing. Courses are added by contributors in the Components tab.</span>
+      </div>
+
+      <!-- 2-tab layout: Details · Program Requirement -->
+      <div class="tabs" role="tablist" aria-label="Program sections">
+        <button class="tab" role="tab" id="tab-details" aria-selected="true" aria-controls="panel-details">Details</button>
+        <button class="tab" role="tab" id="tab-requirement" aria-selected="false" aria-controls="panel-requirement" tabindex="-1">Program Requirement</button>
+      </div>
+
+      <!-- ===================== DETAILS ===================== -->
+      <div role="tabpanel" id="panel-details" aria-labelledby="tab-details">
+        <div class="card">
+          <h2 class="card-title">Program Details</h2>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px 40px; font-size:13px; margin-top:16px;">
+            <div><p class="dl-label">Program name</p><p class="dl-value">Registered Nursing (RN)</p></div>
+            <div><p class="dl-label">Category</p><p class="dl-value">Patient Care</p></div>
+            <div><p class="dl-label">Effective dates</p><p class="dl-value">Start Term: <b>Spring 2024</b> &nbsp;&nbsp; End Term: <b>Winter 2025</b></p></div>
+            <div><p class="dl-label">Terms and Conditions</p><a href="#" style="display:inline-flex; align-items:center; gap:6px; font-weight:600;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Program_Terms_and_Conditions.pdf</a></div>
+          </div>
+          <div style="margin-top:16px;"><p class="dl-label">Details</p><p class="dl-value">A licensure-track program training students in patient care, clinical skills, and nursing theory — preparing graduates to sit for the NCLEX-RN exam and enter the workforce as registered nurses.</p></div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Enrollment Governance</h2>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px 40px; font-size:13px; margin-top:16px;">
+            <div><p class="dl-label">Priority Enrollment</p><p class="dl-value"><b>Enabled</b> — collaborative students are served in this order when capacity is limited.</p></div>
+            <div>
+              <p class="dl-label">Institution Priority Order</p>
+              <ol class="ord-list">
+                <li><span class="ord-num">1</span> UCLA</li>
+                <li><span class="ord-num">2</span> USC</li>
+                <li><span class="ord-num">3</span> UC San Diego</li>
+                <li><span class="ord-num">4</span> Cal State Long Beach</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Student Experience</h2>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px 40px; font-size:13px; margin-top:16px;">
+            <div>
+              <p class="dl-label">How it Works</p>
+              <div style="margin:8px 0 12px;"><b>Step 1</b><br><span class="muted">Browse approved courses across partner colleges</span></div>
+              <div style="margin-bottom:12px;"><b>Step 2</b><br><span class="muted">Confirm eligibility with your home institution</span></div>
+              <div><b>Step 3</b><br><span class="muted">Enroll and track progress toward your credential</span></div>
+            </div>
+            <div>
+              <p class="dl-label" style="margin-bottom:14px;">Contact Information</p>
+              <p class="dl-sub">Phone</p>
+              <p class="dl-value" style="margin-bottom:14px;">(800) 555-0148</p>
+              <p class="dl-sub">Link #1</p>
+              <div class="exp-link">
+                <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 3 7v2h18V7l-9-5zM5 10v8H3v2h18v-2h-2v-8h-2v8h-3v-8h-2v8H8v-8H5z"/></svg></span>
+                <span class="nm">Visit Program Website</span>
+                <span class="url">https://www.example.edu/program</span>
+                <span class="ext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></span>
+              </div>
+              <p class="dl-sub" style="margin-top:10px;">CTA Button</p>
+              <a href="#" style="font-weight:600;">Learn more</a>
+              <p style="margin:2px 0 0; color:var(--c-link); font-size:12px;">https://www.example.edu/program</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Customization</h2>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px 40px; font-size:13px; margin-top:16px;">
+            <div>
+              <p class="dl-label">Footer notes</p>
+              <p class="dl-value">Footer notes of the Registered Nursing (RN)</p>
+            </div>
+            <div>
+              <p class="dl-label" style="margin-bottom:10px;">Program Banner</p>
+              <img class="banner-img" src="assets/program-banner.jpg?v=25" alt="Program banner">
+            </div>
+          </div>
+        </div>
+      </div><!-- /panel-details -->
+
+      <!-- ===================== REQUIREMENT ===================== -->
+      <div role="tabpanel" id="panel-requirement" aria-labelledby="tab-requirement" hidden>
+        <div class="card">
+          <h2 class="card-title">Program requirement details</h2>
+          <p class="card-sub" style="margin-top:4px;">Name this requirement block and set its rules. You'll add components to it below.</p>
+          <div style="display:grid; grid-template-columns:2fr 1fr; gap:18px; margin-top:14px;">
+            <div class="field" style="margin:0;"><label><span class="star">*</span> Name <span class="muted">(Required)</span></label><input class="input" id="reqName" placeholder="e.g. Introduction courses"></div>
+            <div class="field" style="margin:0;"><label><span class="star">*</span> Credit <span class="muted">(Required)</span></label><input class="input" placeholder="e.g. 3"></div>
+          </div>
+          <div class="field" style="margin:14px 0 0;"><label><span class="star">*</span> Default Subheading Text <span class="muted">(Required)</span></label><input class="input" placeholder="Subheading shown to students"></div>
+          <label class="ccs-check" style="margin-top:14px;">
+            <input type="checkbox" id="hio">
+            <span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M1 6l3.5 3.5L11 2.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="lbl">Home Institution Only<span class="sub">This entire requirement section must be completed at the student's home institution.</span></span>
+          </label>
+        </div>
+
+        <div class="card">
+          <div class="reqdef-head">
+            <div><h2 class="card-title" style="margin:0;">Requirement structure</h2><p class="card-sub" style="margin:4px 0 0;">Add components and group them with AND/OR. Contributors fill each component with courses in the Components tab.</p></div>
+            <div class="reqdef-head__actions">
+              <label class="toggle"><input type="checkbox" id="courseOrdering"><span class="toggle__track"><span class="toggle__thumb"></span></span> Toggle Course Ordering</label>
+              <button class="btn btn-outline btn-md" onclick="liveToast('Preview requirement')"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px; margin-right:5px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Preview Requirement</button>
+            </div>
+          </div>
+          <div id="reqDef" style="margin-top:20px;"></div>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn btn-primary btn-md" onclick="saveRequirement()">Save</button>
+          <button class="btn btn-transparent btn-md reqdef-del" onclick="deleteRequirement()"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px; margin-right:5px;"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Delete</button>
+        </div>
+      </div><!-- /panel-requirement -->
+    </div>
+  </main>
+</div>
+
+<!-- Requirement-definition editing tray (all editing happens here) -->
+<div class="tray-overlay" id="reqTray">
+  <div class="tray" role="dialog" aria-modal="true" aria-labelledby="reqTrayTitle">
+    <div class="tray-head"><h3 id="reqTrayTitle">Edit</h3><button class="tray-close" onclick="closeReqTray()" aria-label="Close">&times;</button></div>
+    <div class="tray-body" id="reqTrayBody"></div>
+    <div class="tray-foot">
+      <button class="btn btn-outline btn-md" onclick="closeReqTray()">Cancel</button>
+      <button class="btn btn-primary btn-md" onclick="saveTray()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/app.js?v=25"></script>
+<script>
+mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network', href:'collab-detail.html'}, {label:'Registered Nursing (RN)'}]);
+
+/* ---------------- Accessible tabs (Details / Requirement / CSV Import) ---------------- */
+const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+function selectTab(id, focus) {
+  tabs.forEach(t => {
+    const on = t.id === id;
+    t.setAttribute('aria-selected', String(on));
+    t.tabIndex = on ? 0 : -1;
+    document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    if (on && focus) t.focus();
+  });
+}
+tabs.forEach((t, i) => {
+  t.addEventListener('click', () => selectTab(t.id));
+  t.addEventListener('keydown', e => {
+    let n = null;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') n = (i + 1) % tabs.length;
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') n = (i - 1 + tabs.length) % tabs.length;
+    else if (e.key === 'Home') n = 0;
+    else if (e.key === 'End') n = tabs.length - 1;
+    if (n !== null) { e.preventDefault(); selectTab(tabs[n].id, true); }
+  });
+});
+
+/* ---------------- Shared helpers ---------------- */
+function liveToast(msg) {
+  const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg;
+  document.body.appendChild(t); requestAnimationFrame(() => t.classList.add('show'));
+  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 2200);
+}
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+const PENCIL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>';
+const TRASH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
+const DOCSVG = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>';
+
+/* ---------------- Requirement structure builder — ALL editing in a slide-in tray ----------------
+   A program requirement is a TREE of groups. Each group has an operator (AND/OR) and items;
+   an item is a COMPONENT (drawn from the collaborative's shared component pool) or another
+   nested group (recursion). The manager builds structure only — courses live on the components
+   and are added by contributors in the Components tab. Every edit opens the tray. */
+const OPS = {
+  AND: { label: 'Take all of the following (AND)', conn: 'AND' },
+  OR:  { label: 'Take one of the following (OR)',  conn: 'OR'  },
+};
+/* The shared component pool for this collaborative (mirrors the Components tab). */
+const COMPONENT_POOL = [
+  { name:'College Composition',        display:'English Composition',    courses:4, camps:3 },
+  { name:'Human Anatomy',              display:'Anatomy & Physiology',   courses:3, camps:2 },
+  { name:'Introduction to Psychology', display:'',                       courses:5, camps:4 },
+  { name:'Medical Terminology',        display:'',                       courses:2, camps:2 },
+  { name:'College Algebra',            display:'Quantitative Reasoning', courses:4, camps:3 },
+];
+function poolByName(n){ return COMPONENT_POOL.find(c=>c.name===n); }
+
+function newGroup()     { return { kind:'group',     op:'AND', override:'', notes:'', items:[] }; }
+function newComponent() { return { kind:'component', name:'', display:'', isNew:false }; }
+
+/* Seeded with a sample two-level structure so the components model reads at a glance.
+   Hit Delete to clear it and build from blank. */
+let reqTree = {
+  kind:'group', op:'AND', override:'Required core', notes:'', items:[
+    { kind:'component', name:'College Composition',        display:'', isNew:false },
+    { kind:'component', name:'Human Anatomy',              display:'', isNew:false },
+    { kind:'group', op:'OR', override:'Choose one quantitative or behavioral course', notes:'', items:[
+      { kind:'component', name:'Introduction to Psychology', display:'', isNew:false },
+      { kind:'component', name:'College Algebra',            display:'', isNew:false },
+    ] },
+  ]
+};
+function nodeAt(path){ let n = reqTree; for (const i of path) n = n.items[i]; return n; }
+function val(id){ const e = document.getElementById(id); return e ? e.value : ''; }
+
+/* ----- render the tree as read-only summary rows (pencil opens the tray) ----- */
+function summaryComponent(it){
+  if (!it.name) return `<div class="b-row__k">Component</div><div class="b-row__main"><span class="b-empty">No component chosen yet</span></div>`;
+  const pool = poolByName(it.name);
+  const disp = it.display || (pool && pool.display) || '';
+  const courses = pool ? pool.courses : 0, camps = pool ? pool.camps : 0;
+  const cov = it.isNew ? 'new — contributors add courses' : `${courses} course${courses===1?'':'s'} · ${camps} campus${camps===1?'':'es'}`;
+  const meta = [ disp ? '“'+esc(disp)+'”' : '', cov ].filter(Boolean).join(' · ');
+  return `<div class="b-row__k">Component</div><div class="b-row__main">${esc(it.name)}</div>${meta?`<div class="b-row__meta">${meta}</div>`:''}`;
+}
+function rowItem(it, p){
+  if (it.kind === 'group') return groupBlock(it, p);
+  const ps = JSON.stringify(p);
+  return `<div class="b-row b-row--component">
+    <div class="b-row__body">${summaryComponent(it)}</div>
+    <div class="b-row__acts">
+      <button type="button" class="rd-iconbtn" aria-label="Edit" onclick="openEdit(${ps})">${PENCIL}</button>
+      <button type="button" class="rd-iconbtn rd-iconbtn--del" aria-label="Remove" onclick="removeItem(${ps})">${TRASH}</button>
+    </div>
+  </div>`;
+}
+function groupBlock(node, p){
+  const ps = JSON.stringify(p);
+  const nested = p.length > 0;
+  const conn = `<div class="b-conn"><span class="or-chip">${OPS[node.op].conn}</span></div>`;
+  const inner = node.items.map((it,i)=>rowItem(it, p.concat(i))).join(conn);
+  const body = inner || '<p class="b-empty" style="margin:0 0 4px;">Nothing added yet — add a component or a group below.</p>';
+  const title = node.override ? esc(node.override) : OPS[node.op].label;
+  const delBtn = nested ? `<button type="button" class="rd-iconbtn rd-iconbtn--del" aria-label="Remove requirement" onclick="removeItem(${ps})">${TRASH}</button>` : '';
+  return `<div class="b-grp${nested?' b-grp--nested':''}">
+    <div class="b-grp__hdr">
+      <div class="b-grp__title">${nested?'<span class="b-grp__tag">Requirement group</span>':''}<b>${title}</b></div>
+      <div class="b-row__acts">
+        <button type="button" class="rd-iconbtn" aria-label="Edit operator" onclick="openEditGroup(${ps})">${PENCIL}</button>
+        ${delBtn}
+      </div>
+    </div>
+    <div class="b-items">${body}</div>
+    <div class="rd-add">
+      <button type="button" class="add-link" onclick="addItem(${ps},'component')"><span class="circ">+</span> Component</button>
+      <button type="button" class="add-link" onclick="addItem(${ps},'group')"><span class="circ">+</span> Group</button>
+    </div>
+  </div>`;
+}
+function renderTree(){ document.getElementById('reqDef').innerHTML = groupBlock(reqTree, []); }
+
+/* ----- mutations (add opens the tray to configure the new item) ----- */
+function addItem(p, kind){
+  const node = nodeAt(p);
+  node.items.push(kind === 'component' ? newComponent() : newGroup());
+  const childPath = p.concat(node.items.length - 1);
+  renderTree();
+  if (kind === 'group') openEditGroup(childPath, true); else openEdit(childPath, true);
+}
+function removeItem(p){ const parent = nodeAt(p.slice(0,-1)); parent.items.splice(p[p.length-1], 1); renderTree(); }
+
+/* ----- the tray: where every edit happens ----- */
+let trayState = null; // { path, isNew, type }
+function trayEl(){ return document.getElementById('reqTray'); }
+function showTray(title, bodyHTML){
+  document.getElementById('reqTrayTitle').textContent = title;
+  document.getElementById('reqTrayBody').innerHTML = bodyHTML;
+  trayEl().classList.add('show');
+}
+function closeReqTray(){
+  if (trayState && trayState.isNew) removeItem(trayState.path); // cancel of a brand-new item drops it
+  trayState = null; trayEl().classList.remove('show');
+}
+function openEdit(p, isNew){
+  const it = nodeAt(p); trayState = { path:p, isNew:!!isNew, type:'component' };
+  const opts = COMPONENT_POOL.map(c=>`<option value="${esc(c.name)}"${(c.name===it.name && !it.isNew)?' selected':''}>${esc(c.name)}${c.display?' ('+esc(c.display)+')':''}</option>`).join('');
+  showTray(isNew ? 'Add component' : 'Edit component', `
+    <p class="tray-sub">Pick a component from this collaborative's shared pool, or create a new one. Courses are added by contributors in the Components tab — not here.</p>
+    <div class="field"><label><span class="star">*</span> Component</label>
+      <select class="select" id="t_pick" onchange="onPickComponent()">
+        <option value="">Choose a component…</option>
+        ${opts}
+        <option value="__new__"${it.isNew?' selected':''}>＋ Create a new component…</option>
+      </select></div>
+    <div id="t_newwrap" style="display:${it.isNew?'block':'none'};">
+      <div class="field"><label><span class="star">*</span> New component name</label><input class="input" id="t_name" value="${esc(it.isNew?it.name:'')}" placeholder="e.g. Medical Terminology"></div>
+      <div class="field"><label>Display name <span class="muted">(optional)</span></label><input class="input" id="t_display" value="${esc(it.display)}" placeholder="Shown to students if different"></div>
+    </div>
+    <div class="b-note" id="t_poolnote" style="display:${(it.name && !it.isNew)?'block':'none'};"></div>
+  `);
+  if (it.name && !it.isNew) refreshPoolNote(it.name);
+}
+function onPickComponent(){
+  const v = document.getElementById('t_pick').value;
+  const isNew = v === '__new__';
+  document.getElementById('t_newwrap').style.display = isNew ? 'block' : 'none';
+  const note = document.getElementById('t_poolnote');
+  if (isNew || !v){ note.style.display = 'none'; }
+  else { note.style.display = 'block'; refreshPoolNote(v); }
+}
+function refreshPoolNote(name){
+  const pool = poolByName(name); const note = document.getElementById('t_poolnote');
+  if (!pool || !note) return;
+  note.innerHTML = `<b>${esc(name)}</b> currently has <b>${pool.courses} course${pool.courses===1?'':'s'}</b> across <b>${pool.camps} campus${pool.camps===1?'':'es'}</b>, added by contributors. Manage them in the Components tab.`;
+}
+function openEditGroup(p, isNew){
+  const node = nodeAt(p); trayState = { path:p, isNew:!!isNew, type:'group' };
+  const nested = p.length > 0;
+  showTray(isNew ? 'Add requirement group' : (nested ? 'Edit requirement group' : 'Edit operator'), `
+    <p class="tray-sub">A named section of this requirement, such as "Required Core" or "Electives."</p>
+    <div class="field"><label>Display title <span class="muted">(optional)</span></label><input class="input" id="t_override" value="${esc(node.override)}" placeholder="e.g. Required Core"></div>
+    <div class="field"><label><span class="star">*</span> How these combine (operator)</label>
+      <select class="select" id="t_op">
+        ${Object.keys(OPS).map(k=>`<option value="${k}"${node.op===k?' selected':''}>${esc(OPS[k].label)}</option>`).join('')}
+      </select>
+    </div>
+    <div class="field"><label>Notes <span class="muted">(optional)</span></label><textarea class="input tray-ta" id="t_gnotes" rows="3">${esc(node.notes||'')}</textarea></div>
+    <div class="b-note">Nest a group to mix AND and OR. No min/max counts in V1 — how many a student needs comes from the requirement's credits. Add components or a nested group after saving.</div>
+  `);
+}
+function saveTray(){
+  if (!trayState) return;
+  const it = nodeAt(trayState.path);
+  if (trayState.type === 'component'){
+    const pick = val('t_pick');
+    if (pick === '__new__'){ it.isNew = true; it.name = val('t_name'); it.display = val('t_display'); }
+    else { it.isNew = false; it.name = pick; it.display = ''; }
+  }
+  else if (trayState.type === 'group'){ it.op=val('t_op'); it.override=val('t_override'); it.notes=val('t_gnotes'); }
+  trayState = null; trayEl().classList.remove('show'); renderTree();
+}
+document.getElementById('reqTray').addEventListener('click', e=>{ if (e.target.id === 'reqTray') closeReqTray(); });
+document.addEventListener('keydown', e=>{ if (e.key === 'Escape' && trayEl().classList.contains('show')) closeReqTray(); });
+
+
+function saveRequirement() { liveToast('Requirement saved'); }
+function deleteRequirement() {
+  confirmModal({
+    header: 'Delete requirement', title: 'Delete this requirement?',
+    body: 'This requirement and its whole structure will be removed from the program.', confirmLabel: 'Delete',
+    onConfirm: () => { reqTree = newGroup(); renderTree(); const n = document.getElementById('reqName'); if (n) n.value = ''; liveToast('Requirement deleted'); }
+  });
+}
+
+/* ---------------- Publish ---------------- */
+function tryPublish() {
+  confirmModal({
+    header: 'Publish program', title: 'Are you ready to publish this program?',
+    body: 'After publishing, students will be able to view it, and no further edits can be made.', confirmLabel: 'Publish',
+    onConfirm: () => { flashToast('Program published'); go('collab-detail.html#admin'); }
+  });
+}
+
+// Deep-link a tab via #requirement / #details
+const hashTab = { '#requirement': 'tab-requirement', '#details': 'tab-details' }[location.hash];
+if (hashTab) selectTab(hashTab);
+
+renderTree();
+(function(){ const n = document.getElementById('reqName'); if (n && !n.value) n.value = 'Lower-division core'; })();
+</script>
+</body>
+</html>

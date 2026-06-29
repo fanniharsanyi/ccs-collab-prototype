@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Import Course Equivalencies · Upload file</title>
+<link rel="stylesheet" href="assets/styles.css?v=25">
+</head>
+<body>
+<div class="app" id="app">
+  <main>
+    <div class="page">
+      <button class="back-link" onclick="go('component-detail.html')"><span class="chev-left"></span> Back</button>
+      <h1 class="h1" style="margin-top:12px;">Import Course Equivalencies</h1>
+      <p class="lead">Upload course equivalencies for <b>Registered Nursing (RN)</b>. Existing CVC equivalencies are applied automatically.</p>
+
+      <div class="stepper">
+        <div class="step active"><span class="dot">1</span><span class="label">Upload file</span></div>
+        <div class="step-line"></div>
+        <div class="step pending"><span class="dot">2</span><span class="label">Review and confirm</span></div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Import Details</h2>
+
+        <p class="dl-sub" style="margin-top:18px;">Upload CSV File</p>
+        <p class="muted" style="font-size:12px; margin:0 0 14px;">Upload a CSV file containing course equivalencies for this program.</p>
+
+        <label style="display:block; font-weight:600; font-size:13px; margin-bottom:8px;">Upload Method</label>
+        <div class="radio-row" id="methodRow">
+          <label class="radio"><input type="radio" name="method" value="file" checked><span class="rb"></span> Upload File</label>
+          <label class="radio"><input type="radio" name="method" value="manual"><span class="rb"></span> Manual Entry</label>
+        </div>
+
+        <div id="uploadFileBox">
+          <div class="field" style="margin-bottom:0;">
+            <label>File</label>
+            <div class="file-input">
+              <span class="choose">Choose File</span>
+              <span class="fname">No file chosen</span>
+            </div>
+          </div>
+          <p class="upload-help">The file should be formatted as comma-separated values (.csv) and encoded UTF-8 if possible. <a href="#">Download sample CSV.</a></p>
+        </div>
+
+        <div id="manualBox" class="hide">
+          <div class="field" style="margin-bottom:0;">
+            <label>* Manual entry</label>
+            <textarea class="textarea" style="min-height:120px;" placeholder=""></textarea>
+          </div>
+          <p class="upload-help">Format your data as tab-separated or comma-separated values, with one row per line (e.g., data copied from a spreadsheet). The first row must include column names (X,Y). All subsequent rows should contain the corresponding values. A single line of comma-separated values will be interpreted as a single row with headers only.</p>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn btn-transparent btn-md" onclick="go('component-detail.html')">Cancel</button>
+        <button class="btn btn-primary btn-md" onclick="go('import-equivalencies-2.html')">Upload and Review</button>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/app.js?v=25"></script>
+<script>
+mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network', href:'collab-detail.html'}, {label:'Components', href:'collab-detail.html#component'}, {label:'Introduction to Psychology', href:'component-detail.html'}, {label:'Import Course Equivalencies'}]);
+
+// swap between file upload and manual entry
+document.getElementById('methodRow').addEventListener('change', e=>{
+  const manual = e.target.value === 'manual';
+  document.getElementById('uploadFileBox').classList.toggle('hide', manual);
+  document.getElementById('manualBox').classList.toggle('hide', !manual);
+});
+</script>
+</body>
+</html>

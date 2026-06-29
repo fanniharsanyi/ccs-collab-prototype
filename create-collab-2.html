@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create Collaborative · Institution Partners</title>
+<link rel="stylesheet" href="assets/styles.css?v=22">
+</head>
+<body>
+<div class="app" id="app">
+  <main>
+    <div class="page">
+      <button class="back-link" onclick="go('create-collab-1.html')"><span class="chev-left"></span> Back</button>
+      <h1 class="h1" style="margin-top:12px;">Create Collaborative</h1>
+      <p class="lead">Configure collaborative details and institution partners.</p>
+
+      <div class="stepper">
+        <div class="step done"><span class="dot">&#10003;</span><span class="label">Basic Information</span></div>
+        <div class="step-line done"></div>
+        <div class="step active"><span class="dot">2</span><span class="label">Institution Partners</span></div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Participating Institutions</h2>
+        <p class="card-sub">Choose participating institutions. Administrators can be added after creation.</p>
+        <div class="search-row">
+          <input class="input" placeholder="Search name…">
+          <button class="btn btn-outline btn-md">Search</button>
+        </div>
+        <p class="count-line" id="selcount">2 institutions selected</p>
+        <div class="inst-list" id="list"></div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn btn-transparent btn-md" onclick="go('collaboratives.html')">Cancel</button>
+        <button class="btn btn-outline btn-md" onclick="go('create-collab-1.html')">Back</button>
+        <button class="btn btn-primary btn-md" onclick="create()">Create</button>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/app.js?v=22"></script>
+<script>
+mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}]);
+
+const institutions = [
+  ['UCLA', true], ['USC', true],
+  ['American River College', false], ['Bakersfield College', false],
+  ['Butte College', false], ['Cerritos College', false],
+  ['Chabot College', false], ['Citrus College', false],
+  ['Diablo Valley College', false], ['El Camino College', false],
+  ['Fresno City College', false], ['Glendale Community College', false]
+];
+const list = document.getElementById('list');
+const count = document.getElementById('selcount');
+function render() {
+  list.innerHTML = institutions.map((inst, i) =>
+    `<label class="inst-row"><input type="checkbox" data-i="${i}" ${inst[1] ? 'checked' : ''} style="position:absolute;opacity:0;width:0;">
+      <span class="box" style="flex:none;width:20px;height:20px;border-radius:5px;border:1px solid var(--gray-700);background:var(--c-form-input-bg);display:inline-flex;align-items:center;justify-content:center;">
+        <svg viewBox="0 0 12 12" width="12" height="12" fill="none" style="opacity:0;"><path d="M1 6l3.5 3.5L11 2.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span> ${inst[0]}</label>`
+  ).join('');
+  list.querySelectorAll('input').forEach(cb => {
+    const sync = () => {
+      const box = cb.nextElementSibling, svg = box.querySelector('svg');
+      box.style.background = cb.checked ? 'var(--c-form-highlight)' : 'var(--c-form-input-bg)';
+      box.style.borderColor = cb.checked ? 'var(--c-form-highlight)' : 'var(--gray-700)';
+      svg.style.opacity = cb.checked ? '1' : '0';
+    };
+    sync();
+    cb.addEventListener('change', e => {
+      institutions[e.target.dataset.i][1] = e.target.checked;
+      sync();
+      const n = institutions.filter(x => x[1]).length;
+      count.textContent = `${n} institution${n === 1 ? '' : 's'} selected`;
+    });
+  });
+}
+render();
+function create() {
+  flashToast('Collaborative created — saved as Draft');
+  go('collab-detail.html');
+}
+</script>
+</body>
+</html>

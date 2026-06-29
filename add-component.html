@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add Component</title>
+<link rel="stylesheet" href="assets/styles.css?v=25">
+</head>
+<body>
+<div class="app" id="app">
+  <main>
+    <div class="page">
+      <button class="back-link" onclick="go('collab-detail.html#component')"><span class="chev-left"></span> Back</button>
+
+      <div class="detail-head" style="margin-top:12px;">
+        <h1 class="h1" style="margin-top:12px;">Add a component</h1>
+        <p class="lead">A component is a shared building block — a named category like "Human Anatomy" or "College Composition." You define it here; contributors at each campus add their own courses to it later.</p>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Component details</h2>
+        <div class="field" style="margin-top:16px;">
+          <label><span class="star">*</span> Name <span class="muted">(Required)</span></label>
+          <input class="input" id="cName" placeholder="e.g. Human Anatomy">
+          <p class="field-help">The internal name. Used across this collaborative and shown to contributors.</p>
+        </div>
+        <div class="field">
+          <label>Display name <span class="muted">(optional)</span></label>
+          <input class="input" id="cDisplay" placeholder="e.g. Anatomy & Physiology">
+          <p class="field-help">Shown to students if it should read differently from the internal name.</p>
+        </div>
+        <div class="field">
+          <label>Description <span class="muted">(optional)</span></label>
+          <textarea class="input" id="cDesc" rows="3" placeholder="Tell contributors what kind of courses belong in this component."></textarea>
+        </div>
+        <div class="status-notice sn-info" role="status" style="margin-top:4px;">
+          <span class="sicon">&#9432;</span>
+          <span>You're creating the <b>structure</b> only. You don't add courses here — contributors add their campus's courses to this component from the Components tab.</span>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn btn-outline btn-md" onclick="go('collab-detail.html#component')">Cancel</button>
+        <button class="btn btn-primary btn-md" onclick="createComponent()">Create component</button>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/app.js?v=25"></script>
+<script>
+mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network', href:'collab-detail.html'}, {label:'Add Component'}]);
+function createComponent(){
+  const name = document.getElementById('cName').value.trim();
+  if (!name){ document.getElementById('cName').focus(); return; }
+  flashToast('Component created');
+  go('component-detail.html');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Import Course Equivalencies · Review and confirm</title>
+<link rel="stylesheet" href="assets/styles.css?v=25">
+</head>
+<body>
+<div class="app" id="app">
+  <main>
+    <div class="page">
+      <button class="back-link" onclick="go('import-equivalencies-1.html')"><span class="chev-left"></span> Back</button>
+      <h1 class="h1" style="margin-top:12px;">Import Course Equivalencies</h1>
+      <p class="lead">Upload course equivalencies for a collaborative. Existing CVC equivalencies are applied automatically.</p>
+
+      <div class="stepper">
+        <div class="step done"><span class="dot">&#10003;</span><span class="label">Upload file</span></div>
+        <div class="step-line done"></div>
+        <div class="step active"><span class="dot">2</span><span class="label">Review and confirm</span></div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Data Preview</h2>
+        <table class="table" style="margin-top:14px;">
+          <thead><tr><th style="width:48px;"></th><th>Source course</th><th>Equivalent CVC course</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>BIOL 101</td><td>XBIO 1</td><td>Approved</td></tr>
+            <tr><td>2</td><td>CHEM 110</td><td>XCHM 12</td><td>Approved</td></tr>
+            <tr class="err-row"><td>3</td><td><span class="err-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>PSY 100</span></td><td>BIO1</td><td>Approved</td></tr>
+            <tr><td>4</td><td>MATH 120</td><td>XMAT 22</td><td>Approved</td></tr>
+            <tr class="err-row"><td>5</td><td><span class="err-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>ENGL 105</span></td><td>XENG 1</td><td>maybe</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="error-log">
+        <h3>Error Log</h3>
+        <p class="el-sum">2 rows with errors will be skipped. <a href="#">Download Error Log</a></p>
+        <hr>
+        <p class="el-row">Row 3: Identifier is missing "X" prefix.</p>
+        <p class="el-row">Row 5: Result contains an invalid value "maybe".</p>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn btn-transparent btn-md" onclick="go('component-detail.html')">Cancel</button>
+        <button class="btn btn-outline btn-md" onclick="go('import-equivalencies-1.html')">Back</button>
+        <button class="btn btn-primary btn-md" onclick="submitImport()">Submit</button>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/app.js?v=25"></script>
+<script>
+mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network', href:'collab-detail.html'}, {label:'Components', href:'collab-detail.html#component'}, {label:'Introduction to Psychology', href:'component-detail.html'}, {label:'Import Course Equivalencies'}]);
+function submitImport(){ sessionStorage.setItem('ccs_csv_doc', 'course-equivalencies.csv'); flashToast('Equivalencies imported — 3 rows added, 2 skipped'); go('component-detail.html'); }
+</script>
+</body>
+</html>

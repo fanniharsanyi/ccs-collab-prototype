@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add Program · Appearance</title>
+<link rel="stylesheet" href="assets/styles.css?v=22">
+</head>
+<body>
+<div class="app" id="app">
+  <main>
+    <div class="page">
+      <button class="back-link" onclick="go('add-program-2.html')"><span class="chev-left"></span> Back</button>
+      <h1 class="h1" style="margin-top:12px;">Add Program</h1>
+      <p class="lead">Define how this collaborative program works, including its settings.</p>
+
+      <div class="stepper">
+        <div class="step done"><span class="dot">&#10003;</span><span class="label">Basic Information</span></div>
+        <div class="step-line done"></div>
+        <div class="step done"><span class="dot">&#10003;</span><span class="label">Access &amp; Guidance</span></div>
+        <div class="step-line done"></div>
+        <div class="step active"><span class="dot">3</span><span class="label">Appearance</span></div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Customization</h2>
+        <p class="card-sub">Personalize how this program looks for students.</p>
+        <div class="field">
+          <label>Footer notes</label>
+          <textarea class="textarea" placeholder="Placeholder…"></textarea>
+        </div>
+        <label style="display:block; font-weight:500; font-size:12px; margin-bottom:6px;">Banner</label>
+        <div class="file-input">
+          <span class="choose">Choose File</span>
+          <span class="fname">No file chosen</span>
+        </div>
+        <p class="upload-help"><b>Allowed types:</b> image/jpeg, image/png. <b>Max size allowed:</b> 10 Mb. <b>Recommended image size:</b> widescreen, 1920 × 1080 px (16:9)</p>
+        <p class="muted" style="font-size:12px; margin-top:12px;">Program banner is displayed in the program page. If missing, it defaults to the exchange default program image. Check below the image this program is using.</p>
+        <div class="banner-default"><span style="color:#9E9E9E; font-weight:700; letter-spacing:.12em; font-size:22px;">QUOTTLY</span></div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn btn-transparent btn-md" onclick="go('collab-detail.html')">Cancel</button>
+        <button class="btn btn-outline btn-md" onclick="go('add-program-2.html')">Back</button>
+        <button class="btn btn-primary btn-md" onclick="create()">Add</button>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/app.js?v=22"></script>
+<script>
+mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network', href:'collab-detail.html'}, {label:'Add Program'}]);
+function create(){ flashToast('Program created — saved as Draft'); go('program-detail.html'); }
+</script>
+</body>
+</html>

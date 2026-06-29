@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Regional Collaboratives</title>
+<link rel="stylesheet" href="assets/styles.css?v=22">
+</head>
+<body>
+<div class="app" id="app">
+  <main>
+    <div class="page">
+      <div class="page-head">
+        <div class="grow">
+          <h1 class="h1">Regional Collaboratives</h1>
+          <p class="lead">Create and manage shared academic programs and institutional partnerships.</p>
+        </div>
+        <div class="page-head-actions">
+          <a class="btn btn-primary" href="create-collab-1.html">Create Collaborative</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Filter Collaboratives</h2>
+        <div class="field" style="margin-top:16px;">
+          <label>Collaborative name</label>
+          <div class="search-row">
+            <input class="input" placeholder="Search by collaborative name">
+            <button class="btn btn-outline btn-md">Search</button>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr auto auto; gap:16px; align-items:end;">
+          <div class="field" style="margin:0;"><label>Status</label><select class="select"><option>Select Status</option><option>Published</option><option>Draft</option><option>Archived</option></select></div>
+          <div class="field" style="margin:0;"><label>Program</label><select class="select"><option>Select Program</option></select></div>
+          <div class="field" style="margin:0;"><label>Institution Partner</label><select class="select"><option>Select Partner</option></select></div>
+          <button class="btn btn-outline btn-md">Filter</button>
+          <button class="btn btn-transparent btn-md">Clear Filters</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="count-line">6 collaboratives found</p>
+        <table class="table">
+          <thead><tr><th>Name</th><th>Status</th><th>Institution Partners</th><th>Programs</th><th>Created</th><th>Updated</th><th></th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a class="name-link" href="collab-detail.html">Southern CA Health Sciences Network</a></td>
+              <td><span class="badge badge-draft">Draft</span></td>
+              <td>UCLA<br>USC</td>
+              <td>12</td><td>2026-05-05</td><td>2026-05-05</td>
+              <td><button class="row-menu" aria-label="Row actions">&#8942;</button></td>
+            </tr>
+            <tr>
+              <td><a class="name-link" href="#">Bay Area STEM Collaborative</a></td>
+              <td><span class="badge badge-published">Published</span></td>
+              <td>Stanford University<br>UC Berkeley<br>San Jose State University</td>
+              <td>2</td><td>2024-06-18</td><td>2024-06-18</td>
+              <td><button class="row-menu" aria-label="Row actions">&#8942;</button></td>
+            </tr>
+            <tr>
+              <td><a class="name-link" href="#">Central Valley Education Alliance</a></td>
+              <td><span class="badge badge-published">Published</span></td>
+              <td>UC Riverside<br>Cal State San Bernardino<br>Loma Linda University</td>
+              <td>2</td><td>2024-06-18</td><td>2024-06-18</td>
+              <td><button class="row-menu" aria-label="Row actions">&#8942;</button></td>
+            </tr>
+            <tr>
+              <td><a class="name-link" href="#">Inland Empire Tech Collaborative</a></td>
+              <td><span class="badge badge-draft">Draft</span></td>
+              <td>UC San Francisco<br>Sonoma State University<br>Dominican University</td>
+              <td>2</td><td>2024-06-18</td><td>2024-06-18</td>
+              <td><button class="row-menu" aria-label="Row actions">&#8942;</button></td>
+            </tr>
+            <tr>
+              <td><a class="name-link" href="#">North Bay Workforce Partnership</a></td>
+              <td><span class="badge badge-published">Published</span></td>
+              <td>UC San Francisco<br>Sonoma State University<br>Touro University</td>
+              <td>2</td><td>2024-06-18</td><td>2024-06-18</td>
+              <td><button class="row-menu" aria-label="Row actions">&#8942;</button></td>
+            </tr>
+            <tr>
+              <td><a class="name-link" href="#">San Diego Regional Arts Network</a></td>
+              <td><span class="badge badge-archived">Archived</span></td>
+              <td>UC San Diego<br>SDSU<br>Point Loma Nazarene</td>
+              <td>2</td><td>2024-06-18</td><td>2024-06-18</td>
+              <td><button class="row-menu" aria-label="Row actions">&#8942;</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="pager">
+          <button>&lsaquo; Prev</button>
+          <button class="active">1</button><button>2</button><button>3</button><button>4</button>
+          <button>…</button><button>25</button><button>Next &rsaquo;</button>
+          <span class="rpp">Results per page <select class="select"><option>10</option><option>25</option><option>50</option></select></span>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/app.js?v=22"></script>
+<script>mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives'}]);</script>
+</body>
+</html>

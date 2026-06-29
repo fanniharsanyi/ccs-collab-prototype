@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create Collaborative · Basic Information</title>
+<link rel="stylesheet" href="assets/styles.css?v=22">
+</head>
+<body>
+<div class="app" id="app">
+  <main>
+    <div class="page">
+      <button class="back-link" onclick="go('collaboratives.html')"><span class="chev-left"></span> Back</button>
+      <h1 class="h1" style="margin-top:12px;">Create Collaborative</h1>
+      <p class="lead">Configure collaborative details and institution partners.</p>
+
+      <div class="stepper">
+        <div class="step active"><span class="dot">1</span><span class="label">Basic Information</span></div>
+        <div class="step-line"></div>
+        <div class="step pending"><span class="dot">2</span><span class="label">Institution Partners</span></div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">General Information</h2>
+        <p class="card-sub">Define the core details of your collaborative, including its name and a brief description.</p>
+        <div class="field">
+          <label><span class="star">*</span> Name</label>
+          <input class="input" id="name" value="Southern CA Health Sciences Network"
+                 placeholder="Enter a clear, descriptive name for this collaborative.">
+        </div>
+        <div class="field">
+          <label><span class="star">*</span> Description</label>
+          <textarea class="textarea" id="desc" placeholder="Provide a detailed description of the collaborative partnership">Connecting Southern California colleges to expand access to health sciences programs — from nursing to pharmacy technology.</textarea>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn btn-transparent btn-md" onclick="go('collaboratives.html')">Cancel</button>
+        <button class="btn btn-primary btn-md" onclick="go('create-collab-2.html')">Next</button>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/app.js?v=22"></script>
+<script>mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}]);</script>
+</body>
+</html>

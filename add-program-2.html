@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add Program · Access &amp; Guidance</title>
+<link rel="stylesheet" href="assets/styles.css?v=25">
+<style>
+  .hiw-step{display:flex; gap:10px; align-items:center;}
+  .hiw-step .field{flex:1;}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <main>
+    <div class="page">
+      <button class="back-link" onclick="go('add-program-1.html')"><span class="chev-left"></span> Back</button>
+      <h1 class="h1" style="margin-top:12px;">Add Program</h1>
+      <p class="lead">Define how this collaborative program works, including its settings.</p>
+
+      <div class="stepper">
+        <div class="step done"><span class="dot">&#10003;</span><span class="label">Basic Information</span></div>
+        <div class="step-line done"></div>
+        <div class="step active"><span class="dot">2</span><span class="label">Access &amp; Guidance</span></div>
+        <div class="step-line"></div>
+        <div class="step pending"><span class="dot">3</span><span class="label">Appearance</span></div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Enrollment Governance</h2>
+        <p class="card-sub">Control how students and institutions are prioritized when enrolling in this program.</p>
+
+        <p class="gov-label">Student registration priority</p>
+        <p class="muted gov-desc">Give collaborative students earlier access to register for courses — before the same courses open on the general exchange.</p>
+        <div id="priorityToggle"></div>
+        <div id="priorityBox" class="gov-body">
+          <div class="gov-panel">
+            <div class="date-row">
+              <div class="field" style="margin:0;">
+                <label>Priority registration opens</label>
+                <input class="input" placeholder="MM / DD / YYYY">
+                <p class="gov-hint" style="color:var(--msg-hint);">Collaborative students can register from this date.</p>
+              </div>
+              <div class="field" style="margin:0;">
+                <label>Priority registration closes</label>
+                <input class="input" placeholder="MM / DD / YYYY">
+                <p class="gov-hint" style="color:var(--msg-hint);">After this date, courses open to all students on the general exchange.</p>
+              </div>
+            </div>
+            <p class="gov-note">These dates apply to all courses in this program. Priority registration controls the registration window only — institutions still manage their own seat capacity.</p>
+            <div class="note note-warn">
+              <span class="note-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+              <div>Make sure the priority window closes before the general exchange opens. Overlapping dates may allow non-collaborative students to register at the same time.</div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="gov-hr">
+
+        <p class="gov-label">Institution Priority Order</p>
+        <p class="muted gov-desc">Set which institution appears first when students browse courses in this program. This controls sort order only — it doesn't affect when or whether students can enroll.</p>
+        <div id="orderToggle"></div>
+        <div id="orderBox" class="gov-body">
+          <p class="muted gov-hint" style="margin-top:0;">Drag to set the order in which institutions appear to students browsing this program.</p>
+          <div class="priority-list" id="priority" style="margin-top:12px;">
+            <div class="priority-row"><span class="handle">&#8942;&#8942;</span><span class="pname">UCLA</span><span class="moves"><button data-m="down" aria-label="Move down">&#8595;</button><button data-m="up" aria-label="Move up">&#8593;</button></span></div>
+            <div class="priority-row"><span class="handle">&#8942;&#8942;</span><span class="pname">USC</span><span class="moves"><button data-m="down" aria-label="Move down">&#8595;</button><button data-m="up" aria-label="Move up">&#8593;</button></span></div>
+            <div class="priority-row"><span class="handle">&#8942;&#8942;</span><span class="pname">UC San Diego</span><span class="moves"><button data-m="down" aria-label="Move down">&#8595;</button><button data-m="up" aria-label="Move up">&#8593;</button></span></div>
+            <div class="priority-row"><span class="handle">&#8942;&#8942;</span><span class="pname">Cal State Long Beach</span><span class="moves"><button data-m="down" aria-label="Move down">&#8595;</button><button data-m="up" aria-label="Move up">&#8593;</button></span></div>
+          </div>
+          <div class="note note-info">
+            <span class="note-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
+            <div><b>Information:</b> This order affects how institutions appear to students when browsing courses. It doesn't change which courses are available or seat allocation.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Student Experience</h2>
+        <p class="card-sub">Customize the student experience by editing the "how it works" steps and managing guidance options.</p>
+
+        <div id="howChk" style="margin-bottom:14px;"></div>
+        <div id="howBox">
+          <p style="font-weight:600; font-size:13px; color:var(--c-link); margin:0 0 8px;">How It Works</p>
+          <div id="howSteps" style="display:grid; gap:14px; max-width:560px;"></div>
+          <div style="margin-top:14px; display:flex; gap:16px; align-items:center;">
+            <button type="button" class="btn btn-outline btn-sm" id="addStep">Add step</button>
+            <a href="#" id="resetSteps" style="font-weight:600; font-size:12px;">Reset to default</a>
+          </div>
+        </div>
+
+        <hr style="border:0; border-top:1px solid var(--gray-200); margin:22px 0;">
+
+        <div id="contactChk" style="margin-bottom:14px;"></div>
+        <div id="contactBox">
+          <p style="font-weight:600; font-size:13px; color:var(--c-link); margin:0 0 14px;">Contact information</p>
+          <div class="field" style="max-width:340px;"><label>Phone</label><input class="input" placeholder="Placeholder"></div>
+
+          <div class="contact-row">
+            <div class="ct-left">
+              <div class="field"><label>Link #1 Icon</label><select class="select"><option>Right Arrow</option><option>Globe</option><option>Link</option></select></div>
+              <div class="field"><label>Link #1 Text</label><input class="input" placeholder="Placeholder"></div>
+            </div>
+            <div class="field"><label>Link #1 URL</label><input class="input" placeholder="Placeholder"></div>
+          </div>
+          <div class="contact-row">
+            <div class="ct-left">
+              <div class="field"><label>Link #2 Icon</label><select class="select"><option>Right Arrow</option><option>Globe</option><option>Link</option></select></div>
+              <div class="field"><label>Link #2 Text</label><input class="input" placeholder="Placeholder"></div>
+            </div>
+            <div class="field"><label>Link #2 URL</label><input class="input" placeholder="Placeholder"></div>
+          </div>
+          <div class="contact-row" style="margin-bottom:0;">
+            <div class="field"><label>CTA Button Text</label><input class="input" placeholder="Placeholder"></div>
+            <div class="field"><label>CTA Button URL</label><select class="select"><option>Placeholder</option></select></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn btn-transparent btn-md" onclick="go('collab-detail.html')">Cancel</button>
+        <button class="btn btn-outline btn-md" onclick="go('add-program-1.html')">Back</button>
+        <button class="btn btn-primary btn-md" onclick="go('add-program-3.html')">Next</button>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/app.js?v=25"></script>
+<script>
+mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network', href:'collab-detail.html'}, {label:'Add Program'}]);
+
+// custom checkboxes that toggle their sections
+document.getElementById('howChk').innerHTML = checkbox('<span class="lbl">Show How It Works Box<span class="sub">Display a "How it works" guide on the student page. You can customize the steps to explain how the program works.</span></span>', {checked:true});
+document.getElementById('contactChk').innerHTML = checkbox('<span class="lbl">Contact information<span class="sub">Show a contact information section that helps students get support, including contacting an advisor for course selection.</span></span>', {checked:true});
+
+// governance toggles — reveal/collapse their section bodies
+document.getElementById('priorityToggle').innerHTML = switchToggle('<span class="lbl">Enable priority registration for collaborative students<span class="sub">Set the window when collaborative students can register, before courses open to everyone.</span></span>', {checked:true});
+document.getElementById('orderToggle').innerHTML = switchToggle('<span class="lbl">Enable institution display order<span class="sub">Drag to set the order in which institutions appear to students browsing this program.</span></span>', {checked:true});
+
+document.getElementById('priorityToggle').querySelector('input').addEventListener('change', e=>{
+  document.getElementById('priorityBox').classList.toggle('hide', !e.target.checked);
+});
+document.getElementById('orderToggle').querySelector('input').addEventListener('change', e=>{
+  document.getElementById('orderBox').classList.toggle('hide', !e.target.checked);
+});
+
+makeReorderable(document.getElementById('priority'));
+
+// toggle section visibility from the checkboxes
+document.getElementById('howChk').querySelector('input').addEventListener('change', e=>{
+  document.getElementById('howBox').style.display = e.target.checked ? '' : 'none';
+});
+document.getElementById('contactChk').querySelector('input').addEventListener('change', e=>{
+  document.getElementById('contactBox').style.display = e.target.checked ? '' : 'none';
+});
+
+/* ---- How It Works steps: each step is its own textarea with a live char counter; add / remove (× only when > 3) / reset ---- */
+const HIW_DEFAULTS = [
+  'Browse approved courses across partner colleges',
+  'Confirm eligibility with your home institution',
+  'Enroll and track progress toward your credential'
+];
+const HIW_MIN = 3;        // remove (×) only appears once there are more than 3 steps
+const HIW_STEP_MAX = 100; // per-step character cap
+const HIW_TRASH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>';
+let hiwSteps = HIW_DEFAULTS.slice();
+const howStepsEl = document.getElementById('howSteps');
+function escHiw(s){ return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function hiwToast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); requestAnimationFrame(()=>t.classList.add('show')); setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),300); },2000); }
+function renderHiw(focus){
+  const showRm = hiwSteps.length > HIW_MIN;
+  howStepsEl.innerHTML = hiwSteps.map((v,i)=>`
+    <div class="hiw-step">
+      <div class="field" style="margin:0; flex:1;"><label>Step ${i+1}</label>
+        <textarea class="input hiw-ta" data-i="${i}" rows="2" maxlength="${HIW_STEP_MAX}" placeholder="Describe this step">${escHiw(v)}</textarea>
+        <div class="char-count"><span class="hiw-count">${v.length}</span> / ${HIW_STEP_MAX}</div>
+      </div>
+      ${showRm ? `<button type="button" class="row-menu" data-rm="${i}" aria-label="Remove step ${i+1}" title="Remove">${HIW_TRASH}</button>` : ''}
+    </div>`).join('');
+  howStepsEl.querySelectorAll('textarea').forEach(ta=>ta.addEventListener('input',e=>{
+    const i=+e.target.dataset.i; hiwSteps[i]=e.target.value;
+    const cnt=e.target.parentElement.querySelector('.hiw-count');
+    cnt.textContent=e.target.value.length;
+    cnt.parentElement.classList.toggle('char-count--max', e.target.value.length>=HIW_STEP_MAX);
+  }));
+  howStepsEl.querySelectorAll('[data-rm]').forEach(b=>b.addEventListener('click',()=>{ hiwSteps.splice(+b.dataset.rm,1); renderHiw(); }));
+  if(focus!=null){ const f=howStepsEl.querySelector(`textarea[data-i="${focus}"]`); if(f) f.focus(); }
+}
+document.getElementById('addStep').addEventListener('click',()=>{ hiwSteps.push(''); renderHiw(hiwSteps.length-1); });
+document.getElementById('resetSteps').addEventListener('click',e=>{
+  e.preventDefault();
+  confirmModal({
+    header:'Reset steps', title:'Reset the steps to the default three?',
+    body:'Every step you added or edited will be cleared and replaced with the three default steps.',
+    confirmLabel:'Reset',
+    onConfirm:()=>{ hiwSteps = HIW_DEFAULTS.slice(); renderHiw(); hiwToast('Steps reset to default'); }
+  });
+});
+renderHiw();
+</script>
+</body>
+</html>

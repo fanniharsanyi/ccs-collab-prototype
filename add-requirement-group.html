@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add Requirement Group</title>
+<link rel="stylesheet" href="assets/styles.css?v=22">
+</head>
+<body>
+<div class="app" id="app">
+  <main>
+    <div class="page">
+      <button class="back-link" onclick="go('program-detail.html')"><span class="chev-left"></span> Back</button>
+      <h1 class="h1" style="margin-top:12px;">Add requirement group</h1>
+      <p class="lead">Define a group of requirements students must complete as part of this program.</p>
+
+      <div class="card">
+        <h2 class="card-title">Group details</h2>
+        <p class="card-sub" style="margin-top:4px;">This group will appear as a section in the program requirements. Students must complete all requirements within it.</p>
+        <div class="field" style="margin:0; max-width:640px;"><label><span class="star">*</span> Name <span class="muted">(Required)</span></label><input class="input" value="General Education Requirements" placeholder="Group name"></div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Define requirements</h2>
+        <div class="notice notice-info" role="status" style="margin-top:14px;">
+          <span class="nicon">i</span>
+          <span><b>Information:</b> Add the requirements that make up this group. Each requirement keeps its own courses, components, and subjects.</span>
+        </div>
+
+        <div class="disp-row">
+          <div class="field"><label>Default display title</label><select class="select">
+            <option>Take X course(s) from the following (OR)</option>
+            <option>Complete all of the following (AND)</option>
+            <option>Take one course from the following</option>
+          </select></div>
+          <div class="field"><label>Override display title</label><input class="input" placeholder="Optional"></div>
+        </div>
+
+        <div id="rows"></div>
+
+        <button class="add-link" onclick="addRow()" style="margin-top:6px;"><span class="circ">+</span> Add Requirement</button>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn btn-transparent btn-md" onclick="go('program-detail.html')">Cancel</button>
+        <button class="btn btn-primary btn-md" onclick="save()">Save</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Add Course tray (adds a course option to a requirement row) -->
+<div class="tray-overlay" id="trayCourse">
+  <div class="tray" role="dialog" aria-modal="true" aria-label="Add Course">
+    <div class="tray-head"><h3>Add Course</h3><button class="tray-close" onclick="closeTray('trayCourse')" aria-label="Close">&times;</button></div>
+    <div class="tray-body">
+      <p class="muted" style="font-size:12px; margin:0 0 16px;">Add a specific course from a participating institution.</p>
+      <div class="field"><label><span class="star">*</span> Participating Institution</label><select class="select" id="c_inst"><option value="">Select an institution…</option><option>UCLA</option><option>USC</option><option>UC San Diego</option></select></div>
+      <div class="field"><label><span class="star">*</span> Course</label><select class="select" id="c_course"><option value="">Search a course</option><option>ENGL 101 — College Composition</option><option>PSYC 101 — Introduction to Psychology</option><option>MATH 110 — College Algebra</option><option>STAT 120 — Intro to Statistics</option></select></div>
+      <div class="field"><label><span class="star">*</span> Minimum Grade</label><select class="select" id="c_grade"><option value="">Select a grade</option><option>C</option><option>B</option><option>A</option></select></div>
+    </div>
+    <div class="tray-foot">
+      <button class="btn btn-outline btn-md" onclick="closeTray('trayCourse')">Cancel</button>
+      <button class="btn btn-primary btn-md" onclick="saveCourse()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/app.js?v=22"></script>
+<script>
+mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network', href:'collab-detail.html'}, {label:'Registered Nursing (RN)', href:'program-detail.html'}, {label:'Add requirement group'}]);
+
+const PENCIL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>';
+const TRASH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
+
+// Requirements the Collaborative Manager has already defined (picked per row).
+const REQ_OPTIONS = ['English Composition', 'Introduction to Psychology', 'General Education: Mathematics'];
+const REQ_HOME = { 'General Education: Mathematics': true };  // which are home-institution only
+
+let rows = [
+  { req:'English Composition', courses:[] },
+  { req:'Introduction to Psychology', courses:[] },
+  { req:'General Education: Mathematics', courses:[] },
+];
+let activeRow = null;
+
+function optionList(sel){
+  return ['<option value="">Select One</option>']
+    .concat(REQ_OPTIONS.map(r => `<option${r===sel?' selected':''}>${r}</option>`)).join('');
+}
+
+function render(){
+  const root = document.getElementById('rows');
+  root.innerHTML = rows.map((row,i)=>{
+    const home = REQ_HOME[row.req] ? '<span class="tag-hio" style="margin-left:0; margin-top:8px;">Home institution only</span>' : '';
+    const courses = row.courses.map((c,ci)=>`
+      <div class="group-course">${c.course} <span class="muted">· ${c.inst} · Min Grade ${c.grade}</span>
+        <button class="x" title="Remove course" onclick="removeCourse(${i},${ci})">&times;</button></div>`).join('');
+    const block = `
+      <div class="group-req">
+        <div class="grow">
+          <p class="group-req__head">Requirement</p>
+          <div class="field" style="margin:0;"><label><span class="star">*</span> Requirement</label>
+            <select class="select" onchange="setReq(${i}, this.value)">${optionList(row.req)}</select></div>
+          ${home}
+          <div class="group-req__courses">${courses}</div>
+          <button class="add-link" style="margin-top:10px;" onclick="openCourse(${i})"><span class="circ">+</span> Add Course</button>
+        </div>
+        <div class="group-req__acts">
+          <button class="row-menu" aria-label="Edit requirement" onclick="go('add-requirement.html')">${PENCIL}</button>
+          <button class="row-menu" aria-label="Remove requirement" onclick="removeRow(${i})">${TRASH}</button>
+        </div>
+      </div>`;
+    const connector = i < rows.length-1 ? '<div class="or-row"><span class="or-chip">OR</span></div>' : '';
+    return block + connector;
+  }).join('');
+}
+
+function setReq(i, v){ rows[i].req = v; render(); }
+function addRow(){ rows.push({ req:'', courses:[] }); render(); }
+function removeRow(i){
+  confirmModal({
+    header:'Remove requirement', title:'Remove this requirement from the group?',
+    body:'It will no longer be part of this section.', confirmLabel:'Remove',
+    onConfirm:()=>{ rows.splice(i,1); render(); liveToast('Requirement removed'); }
+  });
+}
+
+function openCourse(i){ activeRow = i; ['c_inst','c_course','c_grade'].forEach(id=>document.getElementById(id).value=''); document.getElementById('trayCourse').classList.add('show'); }
+function closeTray(id){ document.getElementById(id).classList.remove('show'); }
+function saveCourse(){
+  const inst=document.getElementById('c_inst').value, course=document.getElementById('c_course').value, grade=document.getElementById('c_grade').value;
+  if(!inst || !course || !grade){ liveToast('Pick an institution, course, and minimum grade'); return; }
+  rows[activeRow].courses.push({inst, course, grade});
+  render(); closeTray('trayCourse'); liveToast('Course added');
+}
+function removeCourse(i, ci){ rows[i].courses.splice(ci,1); render(); }
+
+function liveToast(msg){
+  const t=document.createElement('div'); t.className='toast'; t.textContent=msg;
+  document.body.appendChild(t); requestAnimationFrame(()=>t.classList.add('show'));
+  setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),300); }, 2200);
+}
+document.querySelectorAll('.tray-overlay').forEach(ov=>ov.addEventListener('click',e=>{ if(e.target===ov) ov.classList.remove('show'); }));
+function save(){ flashToast('Requirement group saved'); go('program-detail.html'); }
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Southern CA Health Sciences Network · Published</title>
+<link rel="stylesheet" href="assets/styles.css?v=22">
+</head>
+<body>
+<div class="app" id="app">
+  <main>
+    <div class="page">
+      <button class="back-link" onclick="go('collaboratives.html')"><span class="chev-left"></span> Back</button>
+
+      <div class="detail-head" style="margin-top:12px;">
+        <div class="detail-title-row">
+          <h1 class="h1">Southern CA Health Sciences Network</h1>
+          <span class="badge badge-published">Published</span>
+          <div class="detail-actions">
+            <button class="btn btn-outline btn-md">Preview</button>
+            <button class="btn btn-outline btn-md">Unpublish</button>
+          </div>
+        </div>
+        <p class="detail-meta">Created by <b>James R. Holloway</b><br>Published on: 06.15.2024 | Created on: 05.05.2024</p>
+        <p class="detail-desc">Connecting Southern California colleges to expand access to health sciences programs — from nursing to pharmacy technology.</p>
+        <div class="partners"><span class="muted">Participating Institutions:</span> <span class="pill">UCLA</span> <span class="pill">USC</span></div>
+      </div>
+
+      <div class="status-notice" style="background:#DCFCE7; border-color:var(--green-600); color:var(--c-content-text);" role="status">
+        <span class="sicon">&#10003;</span>
+        <span><b>Published –</b> This collaborative is now live and visible to students at participating institutions.</span>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true">Program</button>
+        <button class="tab" role="tab" aria-selected="false">Admin</button>
+      </div>
+
+      <div class="card">
+        <div class="page-head" style="margin-bottom:16px;">
+          <p class="count-line grow" style="margin:0;">12 programs found</p>
+          <a class="btn btn-outline btn-md" href="add-program-1.html">Add Program</a>
+        </div>
+        <table class="table">
+          <thead><tr><th>Name</th><th>Status</th><th>Category</th><th>Requirements</th></tr></thead>
+          <tbody>
+            <tr><td><a class="name-link" href="program-detail.html">Registered Nursing (RN)</a></td><td><span class="badge badge-published">Published</span></td><td>Patient Care</td><td>3</td></tr>
+            <tr><td><a class="name-link" href="program-detail.html">Medical Assisting</a></td><td><span class="badge badge-published">Published</span></td><td>Clinical Support</td><td>7</td></tr>
+            <tr><td><a class="name-link" href="program-detail.html">Radiologic Technology</a></td><td><span class="badge badge-published">Published</span></td><td>Diagnostic Imaging</td><td>7</td></tr>
+            <tr><td><a class="name-link" href="program-detail.html">Emergency Medical Technician (EMT)</a></td><td><span class="badge badge-published">Published</span></td><td>Urgent Care</td><td>7</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="center" style="margin-top:24px;">
+        <button class="btn btn-transparent btn-md" onclick="resetDemo()">&#8635; Restart demo</button>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/app.js?v=22"></script>
+<script>
+mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}]);
+function resetDemo(){ sessionStorage.clear(); go('dashboard.html'); }
+</script>
+</body>
+</html>

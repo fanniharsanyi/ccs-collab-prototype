@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invite Contributors</title>
+<link rel="stylesheet" href="assets/styles.css?v=25">
+</head>
+<body>
+<div class="app" id="app">
+  <main>
+    <div class="page">
+      <button class="back-link" onclick="go('collab-detail.html#admin')"><span class="chev-left"></span> Back</button>
+      <h1 class="h1" style="margin-top:12px;">Invite contributors</h1>
+      <p class="lead">Select campus administrators from each participating institution to invite them as collaborative contributors. Contributors add their campus's courses to the components.</p>
+
+      <div class="card">
+        <h2 class="card-title">Institutions</h2>
+
+        <div style="border:1px solid var(--gray-300); border-radius:8px; padding:16px; margin-top:16px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; cursor:pointer;">
+            <strong>UCLA</strong><span class="caret" style="border-color:var(--gray-600);"></span>
+          </div>
+          <div class="search-row" style="margin-top:14px;"><input class="input" placeholder="Search admins…"></div>
+          <p class="count-line" id="ucount">6 administrators selected</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;" id="ucla"></div>
+        </div>
+
+        <div style="border:1px solid var(--gray-300); border-radius:8px; padding:16px; margin-top:12px; display:flex; align-items:center; justify-content:space-between; cursor:pointer;">
+          <strong>USC</strong><span class="caret" style="border-color:var(--gray-600); transform:rotate(-45deg);"></span>
+        </div>
+
+        <div class="notice notice-info" role="status" style="margin-top:16px;">
+          <span class="nicon">i</span>
+          <span><b>Information:</b> Invited administrators will receive an email invitation. Once accepted, they become collaborative contributors and can add their campus's courses to the components — they can't change the program structure.</span>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn btn-outline btn-md" onclick="go('collab-detail.html#admin')">Cancel</button>
+        <button class="btn btn-primary btn-md" onclick="invite()">Invite</button>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="assets/app.js?v=25"></script>
+<script>
+mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network', href:'collab-detail.html'}, {label:'Invite Contributors'}]);
+const admins = [
+  ['Adams, Brian T.','b.adams@cvc.edu',false], ['Flores, Maria E.','m.flores@cvc.edu',false],
+  ['Alvarez, Carmen R.','c.alvarez@cvc.edu',false], ['Garcia, Anthony J.','a.garcia@cvc.edu',false],
+  ['Bennett, Susan L.','s.bennett@cvc.edu',true], ['Holloway, James R.','j.holloway@cvc.edu',false],
+  ['Carter, David M.','d.carter@cvc.edu',true], ['Kim, Jennifer S.','j.kim@cvc.edu',false],
+  ['Chen, Linda W.','l.chen@cvc.edu',true], ['Martinez, Carlos D.','c.martinez@cvc.edu',false],
+  ['Coleman, James A.','j.coleman@cvc.edu',true], ['Mitchell, Sandra G.','s.mitchell@cvc.edu',false],
+  ['Delgado, Patricia M.','p.delgado@cvc.edu',true], ['Morgan, Thomas B.','t.morgan@cvc.edu',false],
+  ['Edwards, Robert K.','r.edwards@cvc.edu',true], ['Nguyen, Kevin T.','k.nguyen@cvc.edu',false]
+];
+const host = document.getElementById('ucla');
+const count = document.getElementById('ucount');
+function render(){
+  host.innerHTML = admins.map((a,i)=>
+    `<label class="inst-row" style="padding:8px 12px;"><input type="checkbox" data-i="${i}" ${a[2]?'checked':''} style="position:absolute;opacity:0;width:0;">
+      <span class="box" style="flex:none;width:20px;height:20px;border-radius:5px;border:1px solid var(--gray-700);background:var(--c-form-input-bg);display:inline-flex;align-items:center;justify-content:center;margin-top:2px;">
+        <svg viewBox="0 0 12 12" width="12" height="12" fill="none" style="opacity:0;"><path d="M1 6l3.5 3.5L11 2.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span><span style="font-weight:600;">${a[0]}</span><br><span class="muted" style="font-size:11px;">${a[1]}</span></span></label>`
+  ).join('');
+  host.querySelectorAll('input').forEach(cb=>{
+    const sync=()=>{ const box=cb.nextElementSibling, svg=box.querySelector('svg');
+      box.style.background=cb.checked?'var(--c-form-highlight)':'var(--c-form-input-bg)';
+      box.style.borderColor=cb.checked?'var(--c-form-highlight)':'var(--gray-700)';
+      svg.style.opacity=cb.checked?'1':'0'; };
+    sync();
+    cb.addEventListener('change',e=>{
+      admins[e.target.dataset.i][2]=e.target.checked; sync();
+      const n=admins.filter(x=>x[2]).length;
+      count.textContent=`${n} administrator${n===1?'':'s'} selected`;
+    });
+  });
+}
+render();
+function invite(){ flashToast('Invitations sent'); go('collab-detail.html#admin'); }
+</script>
+</body>
+</html>
