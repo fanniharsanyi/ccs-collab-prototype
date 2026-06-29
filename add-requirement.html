@@ -17,10 +17,14 @@
   .rq-row3 { display:grid; grid-template-columns:160px 160px 1fr; gap:12px 16px; margin-top:12px; }
   @media (max-width:760px){ .rq-fields, .rq-row3 { grid-template-columns:1fr; } }
   .rq-acts { display:flex; gap:6px; flex:none; }
-  .rq-opbar { display:flex; align-items:center; gap:22px; margin-top:6px; padding-top:14px; border-top:1px solid var(--gray-200); flex-wrap:wrap; }
-  .rq-op { display:flex; align-items:center; gap:8px; }
-  .rq-op .select { width:90px; }
+  .rq-opbar { display:flex; align-items:center; gap:22px 28px; margin-top:6px; padding-top:14px; border-top:1px solid var(--gray-200); flex-wrap:wrap; }
+  .rq-op { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .rq-op__sel { width:240px; }
   .rq-op span { font-size:12px; color:#576773; }
+  .rq-addlinks { display:flex; align-items:center; gap:22px; }
+  .rq-min { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .rq-min label { font-size:10px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:#9aa3ad; display:flex; align-items:center; gap:6px; }
+  .rq-min .select { width:62px; }
   label.mini { display:block; font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:#9aa3ad; margin-bottom:5px; }
 </style>
 </head>
@@ -101,10 +105,13 @@ const POOL_COURSES = {
 };
 
 /* model: a tree of groups; items are 'component' or nested 'group' */
-function newGroup(){ return { kind:'group', op:'AND', items:[] }; }
+function newGroup(){ return { kind:'group', op:'AND', minCourses:'', minCredits:'', minSubjects:'', items:[] }; }
 function newComponent(){ return { kind:'component', name:'', display:'', notes:'', grade:'', pick:'', exclude:'' }; }
-let tree = { kind:'group', op:'AND', items:[
-  { kind:'component', name:'College Composition', display:'', notes:'', grade:'C', pick:'1', exclude:'' },
+// Seeded as the canonical "Quantitative or behavioral" requirement — a Take-1-of (OR)
+// so the Maryland-style Minimum fields are visible. Delete items / switch to AND to explore.
+let tree = { kind:'group', op:'OR', minCourses:'1', minCredits:'', minSubjects:'', items:[
+  { kind:'component', name:'Introduction to Psychology', display:'', notes:'', grade:'C', pick:'1', exclude:'' },
+  { kind:'component', name:'College Algebra', display:'', notes:'', grade:'C', pick:'1', exclude:'' },
 ] };
 function nodeAt(p){ let n=tree; for(const i of p) n=n.items[i]; return n; }
 
@@ -143,24 +150,51 @@ function groupBlock(node,p){
     ${nested?`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><span class="rq-tag" style="margin:0;">Requirement</span><button class="rd-iconbtn rd-iconbtn--del" aria-label="Remove requirement" onclick="rm(${ps})">${TRASH}</button></div>`:''}
     ${body}
     <div class="rq-opbar">
-      <div class="rq-op"><select class="select" onchange="updOp(${ps},this.value)"><option value="AND"${node.op==='AND'?' selected':''}>AND</option><option value="OR"${node.op==='OR'?' selected':''}>OR</option></select><span>how these combine</span></div>
-      <button type="button" class="add-link" onclick="add(${ps},'component')"><span class="circ">+</span> Component</button>
-      <button type="button" class="add-link" onclick="add(${ps},'group')"><span class="circ">+</span> Requirement</button>
+      <div class="rq-op">
+        <select class="select rq-op__sel" onchange="updOp(${ps},this.value)">
+          <option value="AND"${node.op==='AND'?' selected':''}>Take the following (AND)</option>
+          <option value="OR"${node.op==='OR'?' selected':''}>Take X from the following (OR)</option>
+        </select>
+        ${node.op==='OR' ? minFields(node,p) : '<span>how these combine</span>'}
+      </div>
+      <div class="rq-addlinks">
+        <button type="button" class="add-link" onclick="add(${ps},'component')"><span class="circ">+</span> Component</button>
+        <button type="button" class="add-link" onclick="add(${ps},'group')"><span class="circ">+</span> Requirement</button>
+      </div>
     </div>
   </div>`;
 }
 function render(){ document.getElementById('def').innerHTML = groupBlock(tree,[]); }
 
 function upd(p,k,v){ nodeAt(p)[k]=v; }                 // text/select fields — no re-render (keep focus)
-function updOp(p,v){ nodeAt(p).op=v; }
+function updOp(p,v){ nodeAt(p).op=v; render(); }       // re-render so the Minimum fields show/hide
+function setMin(p,k,v){ nodeAt(p)[k]=v; }
+function numOpts(v, arr){ return '<option value="">—</option>' + arr.map(n=>`<option value="${n}"${String(v)===String(n)?' selected':''}>${n}</option>`).join(''); }
+/* Maryland "Take X from the following (OR)" — pick how many of the listed items count. */
+function minFields(node,p){
+  const ps=JSON.stringify(p);
+  return `<span class="rq-min">
+    <label>Min courses <select class="select" onchange="setMin(${ps},'minCourses',this.value)">${numOpts(node.minCourses,[1,2,3,4,5,6])}</select></label>
+    <label>Min credits <select class="select" onchange="setMin(${ps},'minCredits',this.value)">${numOpts(node.minCredits,[1,2,3,4,5,6,8,9,10,12])}</select></label>
+    <label>Min subjects <select class="select" onchange="setMin(${ps},'minSubjects',this.value)">${numOpts(node.minSubjects,[1,2,3,4])}</select></label>
+  </span>`;
+}
 function add(p,kind){ nodeAt(p).items.push(kind==='group'?newGroup():newComponent()); render(); }
 function rm(p){ const parent=nodeAt(p.slice(0,-1)); parent.items.splice(p[p.length-1],1); render(); }
 
 /* preview: resolve chosen components to their courses */
+function opSummary(node){
+  if(node.op!=='OR') return 'take all of the following (AND)';
+  const bits=[];
+  if(node.minCourses) bits.push(node.minCourses+' course'+(node.minCourses>1?'s':''));
+  if(node.minCredits) bits.push(node.minCredits+' credits');
+  if(node.minSubjects) bits.push(node.minSubjects+' subject'+(node.minSubjects>1?'s':''));
+  return bits.length ? ('take '+bits.join(' / ')+' from the following (OR)') : 'take X from the following (OR)';
+}
 function collect(node, lines, depth){
   const ind = '&nbsp;'.repeat(depth*4);
   node.items.forEach(it=>{
-    if(it.kind==='group'){ lines.push(`${ind}<b>${node.op}</b> — nested requirement:`); collect(it, lines, depth+1); }
+    if(it.kind==='group'){ lines.push(`${ind}↳ <b>${esc(opSummary(it))}</b>`); collect(it, lines, depth+1); }
     else if(it.name){
       const title = it.display || it.name;
       const rule = [ it.pick?`pick ${it.pick}`:'', it.grade?`min grade ${it.grade}`:'' ].filter(Boolean).join(', ');
@@ -172,7 +206,7 @@ function collect(node, lines, depth){
 function openPreview(){
   const lines=[]; collect(tree, lines, 0);
   document.getElementById('pvBody').innerHTML =
-    `<p class="tray-sub">How this requirement resolves for students — components combine with <b>${tree.op}</b>, and each pulls its campuses' courses.</p>`
+    `<p class="tray-sub">How this requirement resolves for students — students <b>${esc(opSummary(tree))}</b>, and each component pulls its campuses' courses.</p>`
     + (lines.length? `<div class="b-note" style="line-height:1.9;">${lines.join('<br>')}</div>` : '<div class="b-note">Add a component to preview.</div>');
   document.getElementById('pv').classList.add('show');
 }
@@ -182,6 +216,9 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePreview(); }
 
 function save(){ flashToast('Requirement saved'); go('program-detail.html'); }
 render();
+// prefill the requirement details to match the seeded example
+(function(){ const n=document.getElementById('rName'); if(n&&!n.value) n.value='Quantitative or behavioral';
+  const mn=document.getElementById('rMin'), mx=document.getElementById('rMax'); if(mn) mn.value='3'; if(mx) mx.value='4'; })();
 </script>
 </body>
 </html>
