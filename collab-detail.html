@@ -27,8 +27,8 @@
 
       <div class="tabs" role="tablist">
         <button class="tab" role="tab" aria-selected="true" id="tab-program" onclick="switchTab('program')">Programs</button>
-        <button class="tab" role="tab" aria-selected="false" id="tab-component" onclick="switchTab('component')">Components</button>
         <button class="tab" role="tab" aria-selected="false" id="tab-admin" onclick="switchTab('admin')">Admins</button>
+        <button class="tab" role="tab" aria-selected="false" id="tab-component" onclick="switchTab('component')">Components</button>
       </div>
 
       <!-- PROGRAM TAB -->
@@ -58,28 +58,6 @@
         </div>
       </section>
 
-      <!-- COMPONENTS TAB -->
-      <section id="panel-component" class="card hide">
-        <div class="status-notice sn-info" role="status" style="margin:0 0 16px;">
-          <span class="sicon">&#9432;</span>
-          <span><b>Components are the shared building blocks of this collaborative.</b><br>You name and describe each component; contributors at each campus add their own courses to it. Programs reuse these components, so courses are entered once and shared everywhere.</span>
-        </div>
-        <div class="page-head" style="margin-bottom:16px;">
-          <p class="count-line grow" style="margin:0;">5 components</p>
-          <a class="btn btn-outline btn-md" href="add-component.html">Add Component</a>
-        </div>
-        <table class="table">
-          <thead><tr><th>Component</th><th>Display name</th><th>Description</th><th>Courses</th><th></th></tr></thead>
-          <tbody>
-            <tr><td><a class="name-link" href="component-detail.html">College Composition</a></td><td>English Composition</td><td class="muted">Foundational writing course required across all health programs.</td><td>4 courses · 3 campuses</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
-            <tr><td><a class="name-link" href="component-detail.html">Human Anatomy</a></td><td>Anatomy &amp; Physiology</td><td class="muted">Lower-division anatomy accepted toward clinical programs.</td><td>3 courses · 2 campuses</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
-            <tr><td><a class="name-link" href="component-detail.html">Introduction to Psychology</a></td><td class="muted">—</td><td class="muted">General psychology prerequisite for patient-care tracks.</td><td>5 courses · 4 campuses</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
-            <tr><td><a class="name-link" href="component-detail.html">Medical Terminology</a></td><td class="muted">—</td><td class="muted">Shared terminology course used across nursing and allied health.</td><td>2 courses · 2 campuses</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
-            <tr><td><a class="name-link" href="component-detail.html">College Algebra</a></td><td>Quantitative Reasoning</td><td class="muted">Math requirement; each campus maps its own equivalent.</td><td>4 courses · 3 campuses</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
-          </tbody>
-        </table>
-      </section>
-
       <section id="panel-admin" class="card hide">
         <div class="page-head" style="margin-bottom:16px;">
           <p class="count-line grow" style="margin:0;">12 collaborative contributors</p>
@@ -105,6 +83,28 @@
           <span class="rpp">Results per page <select class="select"><option>10</option><option>25</option><option>50</option></select></span>
         </div>
       </section>
+
+      <!-- COMPONENTS TAB (last, matching the dev build's tab order) -->
+      <section id="panel-component" class="card hide">
+        <div class="status-notice sn-info" role="status" style="margin:0 0 16px;">
+          <span class="sicon">&#9432;</span>
+          <span><b>Components are the shared building blocks of this collaborative.</b><br>You name and describe each component; contributors at each campus add their own courses to it. Programs reuse these components, so courses are entered once and shared everywhere.</span>
+        </div>
+        <div class="page-head" style="margin-bottom:16px;">
+          <p class="count-line grow" style="margin:0;">5 components</p>
+          <a class="btn btn-outline btn-md" href="add-component.html">Add Component</a>
+        </div>
+        <table class="table">
+          <thead><tr><th>Component</th><th>Display name</th><th>Description</th><th>Courses</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><a class="name-link" href="component-detail.html">College Composition</a></td><td>English Composition</td><td class="muted">Foundational writing course required across all health programs.</td><td>4 courses · 3 campuses</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+            <tr><td><a class="name-link" href="component-detail.html">Human Anatomy</a></td><td>Anatomy &amp; Physiology</td><td class="muted">Lower-division anatomy accepted toward clinical programs.</td><td>3 courses · 2 campuses</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+            <tr><td><a class="name-link" href="component-detail.html">Introduction to Psychology</a></td><td class="muted">—</td><td class="muted">General psychology prerequisite for patient-care tracks.</td><td>5 courses · 4 campuses</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+            <tr><td><a class="name-link" href="component-detail.html">Medical Terminology</a></td><td class="muted">—</td><td class="muted">Shared terminology course used across nursing and allied health.</td><td>2 courses · 2 campuses</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+            <tr><td><a class="name-link" href="component-detail.html">College Algebra</a></td><td>Quantitative Reasoning</td><td class="muted">Math requirement; each campus maps its own equivalent.</td><td>4 courses · 3 campuses</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
+          </tbody>
+        </table>
+      </section>
     </div>
   </main>
 </div>
@@ -113,7 +113,7 @@
 mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network'}]);
 
 function switchTab(which) {
-  ['program','component','admin'].forEach(t => {
+  ['program','admin','component'].forEach(t => {
     document.getElementById('tab-' + t).setAttribute('aria-selected', t === which);
     document.getElementById('panel-' + t).classList.toggle('hide', t !== which);
   });
