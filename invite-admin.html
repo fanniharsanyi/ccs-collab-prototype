@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Invite Contributors</title>
-<link rel="stylesheet" href="assets/styles.css?v=29">
+<link rel="stylesheet" href="assets/styles.css?v=30">
 </head>
 <body>
 <div class="app" id="app">
@@ -12,7 +12,7 @@
     <div class="page">
       <button class="back-link" onclick="go('collab-detail.html#admin')"><span class="chev-left"></span> Back</button>
       <h1 class="h1" style="margin-top:12px;">Invite contributors</h1>
-      <p class="lead">Select campus administrators from each participating institution to invite them as collaborative contributors. Contributors add their campus's courses to the components.</p>
+      <p class="lead">Select people from each participating institution to invite as collaborative contributors. Contributors add their campus's courses to the components.</p>
 
       <div class="card">
         <h2 class="card-title">Institutions</h2>
@@ -21,8 +21,8 @@
           <div style="display:flex; align-items:center; justify-content:space-between; cursor:pointer;">
             <strong>UCLA</strong><span class="caret" style="border-color:var(--gray-600);"></span>
           </div>
-          <div class="search-row" style="margin-top:14px;"><input class="input" placeholder="Search admins…"></div>
-          <p class="count-line" id="ucount">6 administrators selected</p>
+          <div class="search-row" style="margin-top:14px;"><input class="input" placeholder="Search people…"></div>
+          <p class="count-line" id="ucount">6 contributors selected</p>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;" id="ucla"></div>
         </div>
 
@@ -32,7 +32,7 @@
 
         <div class="notice notice-info" role="status" style="margin-top:16px;">
           <span class="nicon">i</span>
-          <span><b>Information:</b> Invited administrators will receive an email invitation. Once accepted, they become collaborative contributors and can add their campus's courses to the components — they can't change the program structure.</span>
+          <span><b>Information:</b> Invited people will receive an email invitation. Once accepted, they become collaborative contributors and can add their campus's courses to the components — they can't change the program structure.</span>
         </div>
       </div>
 
@@ -43,7 +43,7 @@
     </div>
   </main>
 </div>
-<script src="assets/app.js?v=29"></script>
+<script src="assets/app.js?v=30"></script>
 <script>
 mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network', href:'collab-detail.html'}, {label:'Invite Contributors'}]);
 const admins = [
@@ -75,7 +75,7 @@ function render(){
     cb.addEventListener('change',e=>{
       admins[e.target.dataset.i][2]=e.target.checked; sync();
       const n=admins.filter(x=>x[2]).length;
-      count.textContent=`${n} administrator${n===1?'':'s'} selected`;
+      count.textContent=`${n} contributor${n===1?'':'s'} selected`;
     });
   });
 }
