@@ -144,3 +144,13 @@ function makeReorderable(listEl) {
 }
 
 document.addEventListener('DOMContentLoaded', showPendingToast);
+
+/* Empty-state preview: append ?empty=1 to a list page to show its empty
+   states instead of the seeded rows. Hides every [data-list] and reveals
+   every [data-empty] on the page. (JS-rendered lists honor ?empty on their own.) */
+function applyEmptyPreview() {
+  if (!/[?&]empty=/.test(location.search)) return;
+  document.querySelectorAll('[data-list]').forEach(function (el) { el.classList.add('hide'); });
+  document.querySelectorAll('[data-empty]').forEach(function (el) { el.classList.remove('hide'); });
+}
+document.addEventListener('DOMContentLoaded', applyEmptyPreview);

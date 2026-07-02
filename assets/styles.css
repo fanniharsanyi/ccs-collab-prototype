@@ -772,3 +772,25 @@ main { flex: 1; }
 
 /* ---- field helper text (added for component screens, v=25) ---- */
 .field-help { font-size: 12px; color: var(--c-content-text); opacity: .7; margin: 6px 0 0; line-height: 1.45; }
+
+/* ============================================================
+   Empty states — no collaboratives / programs / components /
+   contributors / courses yet. Centered inside the list card:
+   soft icon, title, one helpful sentence, and (where the role
+   allows) a primary CTA. Toggle a preview with ?empty=1.
+   ============================================================ */
+.empty { text-align: center; padding: 52px 32px; }
+.empty__icon {
+  width: 56px; height: 56px; margin: 0 auto 18px; border-radius: 50%;
+  background: var(--gray-100); border: 1px solid var(--gray-200); color: var(--c-link);
+  display: flex; align-items: center; justify-content: center;
+}
+.empty__icon svg { width: 28px; height: 28px; }
+.empty__title { font-size: 18px; font-weight: 700; color: var(--c-content-text-highlight); margin: 0 0 8px; }
+.empty__text { font-size: 13px; line-height: 1.55; color: var(--gray-700); max-width: 440px; margin: 0 auto 20px; }
+.empty__actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+/* compact variant for an empty area that shares a card with other content */
+.empty--sm { padding: 40px 24px; }
+.empty--sm .empty__icon { width: 48px; height: 48px; margin-bottom: 14px; }
+.empty--sm .empty__icon svg { width: 24px; height: 24px; }
+.empty--sm .empty__title { font-size: 16px; }

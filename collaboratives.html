@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Regional Collaboratives</title>
-<link rel="stylesheet" href="assets/styles.css?v=28">
+<link rel="stylesheet" href="assets/styles.css?v=29">
 </head>
 <body>
 <div class="app" id="app">
@@ -39,6 +39,7 @@
       </div>
 
       <div class="card">
+        <div data-list>
         <p class="count-line">6 collaboratives found</p>
         <table class="table">
           <thead><tr><th>Name</th><th>Status</th><th>Institution Partners</th><th>Programs</th><th>Created</th><th>Updated</th><th></th></tr></thead>
@@ -93,11 +94,18 @@
           <button>…</button><button>25</button><button>Next &rsaquo;</button>
           <span class="rpp">Results per page <select class="select"><option>10</option><option>25</option><option>50</option></select></span>
         </div>
+        </div><!-- /data-list -->
+        <div class="empty hide" data-empty>
+          <div class="empty__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M7.9 7.9l3 8M16.1 7.9l-3 8M8.4 6h7.2"/></svg></div>
+          <h3 class="empty__title">No collaboratives yet</h3>
+          <p class="empty__text">Create a collaborative to connect colleges and share program pathways across campuses.</p>
+          <div class="empty__actions"><a class="btn btn-primary btn-md" href="create-collab-1.html">Create Collaborative</a></div>
+        </div>
       </div>
     </div>
   </main>
 </div>
-<script src="assets/app.js?v=28"></script>
+<script src="assets/app.js?v=29"></script>
 <script>mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives'}]);</script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Southern CA Health Sciences Network</title>
-<link rel="stylesheet" href="assets/styles.css?v=28">
+<link rel="stylesheet" href="assets/styles.css?v=29">
 </head>
 <body>
 <div class="app" id="app">
@@ -33,6 +33,7 @@
 
       <!-- PROGRAM TAB -->
       <section id="panel-program" class="card">
+        <div data-list>
         <div class="page-head" style="margin-bottom:16px;">
           <p class="count-line grow" style="margin:0;">12 programs found</p>
           <a class="btn btn-outline btn-md" href="add-program-1.html">Add Program</a>
@@ -56,9 +57,17 @@
           <button>…</button><button>138</button><button>Next &rsaquo;</button>
           <span class="rpp">Results per page <select class="select"><option>10</option><option>25</option><option>50</option></select></span>
         </div>
+        </div><!-- /data-list -->
+        <div class="empty hide" data-empty>
+          <div class="empty__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5M3 16.5l9 5 9-5"/></svg></div>
+          <h3 class="empty__title">No programs yet</h3>
+          <p class="empty__text">Add a program to this collaborative to define a pathway students can follow.</p>
+          <div class="empty__actions"><a class="btn btn-primary btn-md" href="add-program-1.html">Add Program</a></div>
+        </div>
       </section>
 
       <section id="panel-admin" class="card hide">
+        <div data-list>
         <div class="page-head" style="margin-bottom:16px;">
           <p class="count-line grow" style="margin:0;">12 collaborative contributors</p>
           <a class="btn btn-outline btn-md" href="invite-admin.html">Invite Contributor</a>
@@ -82,6 +91,13 @@
           <button>…</button><button>138</button><button>Next &rsaquo;</button>
           <span class="rpp">Results per page <select class="select"><option>10</option><option>25</option><option>50</option></select></span>
         </div>
+        </div><!-- /data-list -->
+        <div class="empty hide" data-empty>
+          <div class="empty__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0M16 5.2a3 3 0 0 1 0 5.6M20.5 20a5.5 5.5 0 0 0-3.5-5.1"/></svg></div>
+          <h3 class="empty__title">No contributors yet</h3>
+          <p class="empty__text">Invite contributors so each campus can add its own courses to this collaborative's components.</p>
+          <div class="empty__actions"><a class="btn btn-primary btn-md" href="invite-admin.html">Invite Contributor</a></div>
+        </div>
       </section>
 
       <!-- COMPONENTS TAB (last, matching the dev build's tab order) -->
@@ -90,6 +106,7 @@
           <span class="sicon">&#9432;</span>
           <span><b>Components are the shared building blocks of this collaborative.</b><br>You name and describe each component; contributors at each campus add their own courses to it. Programs reuse these components, so courses are entered once and shared everywhere.</span>
         </div>
+        <div data-list>
         <div class="page-head" style="margin-bottom:16px;">
           <p class="count-line grow" style="margin:0;">5 components</p>
           <a class="btn btn-outline btn-md" href="add-component.html">Add Component</a>
@@ -104,11 +121,18 @@
             <tr><td><a class="name-link" href="component-detail.html">College Algebra</a></td><td>Quantitative Reasoning</td><td class="muted">Math requirement; each campus maps its own equivalent.</td><td>4 courses · 3 campuses</td><td><button class="row-menu" aria-label="Row actions">&#8942;</button></td></tr>
           </tbody>
         </table>
+        </div><!-- /data-list -->
+        <div class="empty hide" data-empty>
+          <div class="empty__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+          <h3 class="empty__title">No components yet</h3>
+          <p class="empty__text">Components are shared course pools. Create one, then contributors at each campus add their courses to it.</p>
+          <div class="empty__actions"><a class="btn btn-primary btn-md" href="add-component.html">Add Component</a></div>
+        </div>
       </section>
     </div>
   </main>
 </div>
-<script src="assets/app.js?v=28"></script>
+<script src="assets/app.js?v=29"></script>
 <script>
 mountChrome([{label:'Admin', href:'dashboard.html'}, {label:'Regional Collaboratives', href:'collaboratives.html'}, {label:'Southern CA Health Sciences Network'}]);
 
