@@ -16,7 +16,7 @@
   --c-content-text: #333333;
   --c-content-text-highlight: #10356B;
   --c-content-bg-highlight: #FFB000;
-  --c-footer-bg: #1953A8;
+  --c-footer-bg: #2B2F33;
   --c-footer-link: #FFFFFF;
   --c-footer-text: #FFFFFF;
   --c-form-highlight: #FFB000;
@@ -150,7 +150,8 @@ main { flex: 1; }
 }
 
 /* ---- Footer ---- */
-.footer { background: var(--c-footer-bg); color: var(--c-footer-text); }
+/* DS Exchange Admin footer (CVC): dark charcoal + gold top rule, matching the topbar. */
+.footer { background: var(--c-footer-bg); color: var(--c-footer-text); border-top: 3px solid var(--c-topbar-accent); }
 .footer-inner {
   max-width: var(--page-max);
   margin: 0 auto;
@@ -352,16 +353,22 @@ main { flex: 1; }
 /* ============================================================
    Notices  (inline alert / status notice)
    ============================================================ */
+/* DS Notice (CCS Alert): square corners, grey fill, 1px border (grey for Info/
+   Warning, green Success, red Error), a colored line icon + a SemiBold prefix. */
 .notice {
   display: flex; align-items: flex-start; gap: 12px;
-  padding: 12px 16px; border-radius: 6px; font-size: 12px; line-height: 1.5;
+  padding: 12px 16px; font-size: 12px; line-height: 1.5;
   border: 1px solid var(--gray-300); background: var(--gray-100);
   margin-bottom: 20px;
 }
-.notice .nicon { flex: none; width: 16px; height: 16px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; margin-top: 1px; }
-.notice-info .nicon { background: var(--c-content-bg-highlight); }
-.notice-success { border-color: var(--green-600); }
-.notice-success .nicon { background: var(--green-700); }
+/* colored outlined icon (line style), not a filled circle */
+.notice .nicon { flex: none; width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid currentColor; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; font-style: italic; line-height: 1; margin-top: 1px; }
+.notice-info .nicon { color: var(--c-btn-primary-bg); }
+.notice-warning .nicon { color: var(--yellow-600); }
+.notice-success { border-color: var(--green-700); }
+.notice-success .nicon { color: var(--green-700); }
+.notice-error { border-color: var(--red-700); }
+.notice-error .nicon { color: var(--red-700); }
 .notice b { font-weight: 600; }
 
 /* status notice (lifecycle, on detail pages) */
